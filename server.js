@@ -5,6 +5,9 @@ require('dotenv').config();
 // Express as a server.
 const express = require('express');
 
+//Es5Renderer
+const es6Renderer = require('express-es6-template-engine')
+
 // Running on port 8080.
 const PORT = process.env.PORT || 5050;
 
@@ -13,7 +16,19 @@ const server = express();
 
 // Every endpoint with a json response.
 server.use(express.json());
+
+// style.css and main.js middleware
 server.use(express.static(__dirname + '/client-ui/public'))
+
+// Es6Renderer setup
+server.engine('html', es6Renderer);
+server.set('views', 'views');
+server.set('view engine', 'html');
+
+// Homepage endpoint
+server.get('/', (req, res) => {
+	res.render('index', { locals: {title: 'Welcome!'}})
+})
 
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 
