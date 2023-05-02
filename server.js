@@ -13,7 +13,7 @@ const server = express();
 
 // Every endpoint with a json response.
 server.use(express.json());
-server.use(express.static(__dirname + '/client-ui'))
+server.use(express.static(__dirname + '/client-ui/public'))
 
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 
