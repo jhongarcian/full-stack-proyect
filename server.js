@@ -30,14 +30,17 @@ server.get('/', (req, res) => {
 	res.render('index', { locals: {title: 'Welcome!'}})
 })
 
+
+// Stripe checkout
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 
+// Store items 
 const storeItems = new Map([
 	[1, {priceInCents: 10000, name: 'Item 1'}],
 	[2, {priceInCents: 20000, name: 'Item 2'}]
 ]);
 
-console.log(storeItems);
+// Post endpoint for stripe 
 server.post('/create-checkout-session', async (req, res) => {
 	try {
 		const session = await stripe.checkout.sessions.create({
