@@ -22,6 +22,7 @@ const storeItems = new Map([
 	[2, {priceInCents: 20000, name: 'Item 2'}]
 ]);
 
+console.log(storeItems);
 server.post('/create-checkout-session', async (req, res) => {
 	try {
 		const session = await stripe.checkout.sessions.create({
