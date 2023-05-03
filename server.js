@@ -36,8 +36,8 @@ const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 
 // Store items 
 const storeItems = new Map([
-	[1, {priceInCents: 10000, name: 'Item 1'}],
-	[2, {priceInCents: 20000, name: 'Item 2'}]
+	[1, {priceInCents: 10000, name: 'Item 1', images: ["https://images.pexels.com/photos/1545743/pexels-photo-1545743.jpeg"]}],
+	[2, {priceInCents: 20000, name: 'Item 2', images: ['https://images.pexels.com/photos/1545743/pexels-photo-1545743.jpeg']}]
 ]);
 
 // Post endpoint for stripe 
@@ -55,22 +55,29 @@ server.post('/create-checkout-session', async (req, res) => {
 					price_data: {
 						currency: 'usd',
 						product_data: {
-							name: storeItem.name
+							name: storeItem.name,
+							images: storeItem.images
 						},
-						unit_amount: storeItem.priceInCents
+						unit_amount: storeItem.priceInCents,
 					},
 					quantity: item.quantity
 				}
 			}),
 			// redirect urls 
-			success_url:`${process.env.SERVER_URL}/success.html`,
-			cancel_url: `${process.env.SERVER_URL}/cancel.html`,
+			success_url:`${process.env.SERVER_URL}/success`,
+			cancel_url: `${process.env.SERVER_URL}/cancel`,
 		})
 		// response url => stripe
 		res.json({url: session.url});
 	} catch (e) {
 		res.status(500).json({ error: e.message})
 	}
+})
+
+// Success endpoint
+server.get('/success', (req, res) => {
+	res.render('index')
+	// Need to create a the partials 
 })
 
 // Health endpoint created.
