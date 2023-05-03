@@ -1,3 +1,5 @@
+// Utils functions 
+const { setMainView } = require('./utils')
 
 // dotenv
 require('dotenv').config();
@@ -27,7 +29,9 @@ server.set('view engine', 'html');
 
 // Homepage endpoint
 server.get('/', (req, res) => {
-	res.render('index', { locals: {title: 'Welcome!'}})
+	res.render('index', {
+		partials: setMainView('landing')
+	})
 })
 
 
@@ -87,9 +91,7 @@ server.get("/heartbeat", (req, res) => {
 
 server.get('/favorite', (req, res) => {
 	res.render('index', {
-	  partials: {
-		favorite: 'partials/favorite',
-	  }
+	  partials: setMainView('favorite')
 	});
   });
 
