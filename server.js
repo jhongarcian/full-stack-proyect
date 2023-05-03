@@ -91,9 +91,7 @@ server.get("/heartbeat", (req, res) => {
 
 server.get('/favorite', (req, res) => {
 	res.render('index', {
-	  partials: {
-		favorite: 'partials/favorite',
-	  }
+	  partials: setMainView('favorite')
 	});
   });
 
