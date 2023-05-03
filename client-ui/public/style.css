@@ -1,0 +1,146 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* dark shades of primary color*/
+  --clr-primary-1: #4d4c4c;
+  --clr-primary-2: #605e5e;
+  --clr-primary-3: #6c6a6a;
+  --clr-primary-4: #797777;
+  /* primary/main color */
+  --clr-primary-5: #090808;
+  /* lighter shades of primary color */
+  --clr-primary-6: #2c2b2b;
+  --clr-primary-7: #383737;
+  --clr-primary-8: #c1c1c1;
+  --clr-primary-9: #fdfdfd;
+  --clr-primary-10: #ffffff;
+  /* darkest grey - used for headings */
+  --clr-grey-1: hsl(0, 0%, 14%);
+  --clr-grey-2: hsl(0, 0%, 20%);
+  --clr-grey-3: hsl(0, 0%, 25%);
+  --clr-grey-4: hsl(0, 0%, 31%);
+  /* grey used for paragraphs */
+  --clr-grey-5: hsl(0, 0%, 47%);
+  --clr-grey-6: hsl(0, 0%, 56%);
+  --clr-grey-7: hsl(0, 0%, 63%);
+  --clr-grey-8: hsl(0, 0%, 75%);
+  --clr-grey-9: hsl(0, 0%, 88%);
+  --clr-grey-10: hsl(0, 0%, 97%);
+  --clr-white: #fff;
+  --transition: all 0.3s linear;
+  --spacing: 0.25rem;
+  --radius: 0.5rem;
+  --light-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  --dark-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  font-family: sans-serif;
+  background: var(--clr-white);
+  line-height: 1.5;
+  font-size: 0.875rem;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  color: var(--clr-primary-10);
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  letter-spacing: var(--spacing);
+  text-transform: capitalize;
+  line-height: 1.25;
+  margin-bottom: 0.75rem;
+}
+
+h1 {
+  font-size: 3rem;
+}
+h2 {
+  font-size: 2rem;
+}
+h3 {
+  font-size: 1.25rem;
+}
+h4 {
+  font-size: 0.875rem;
+}
+p {
+  margin-bottom: 1.25rem;
+  color: var(--clr-grey-5);
+}
+
+@media screen and (min-width: 800px) {
+  h1 {
+    font-size: 4rem;
+  }
+  h2 {
+    font-size: 2.5rem;
+  }
+  h3 {
+    font-size: 1.75rem;
+  }
+  h4 {
+    font-size: 1rem;
+  }
+  body {
+    font-size: 1rem;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    line-height: 1;
+  }
+}
+/* Header */
+.y-wrap {
+  margin: 0 auto;
+  width: 90%;
+}
+
+header {
+  background-color: var(--clr-primary-6);
+  padding: 20px 0;
+}
+
+.navs {
+  display: flex;
+  justify-content: space-between;
+}
+
+.navs a {
+  margin: 0 0 0 24px;
+}
+
+.navs a:first-of-type {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.navs a.active {
+  color: var(--clr-primary-8);
+}
+
+.navs a:hover {
+  color: var(--clr-grey-5);
+}
