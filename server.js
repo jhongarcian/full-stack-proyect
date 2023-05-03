@@ -16,19 +16,20 @@ const SECRET = process.env.SECRET
 server.use(express.json());
 server.use(cookieParser())
 server.use(sessions({ 
-    secret: SECRET,
+	secret: SECRET,
     saveUninitialized: true,
     cookie: { maxAge: 30000 },
     resave: false
 }));
 
 const validCreds = {
-    password: "1234",
+	password: "1234",
     username: "John"
 };
 
 // style.css and main.js middleware
-server.use(express.static(__dirname + '/client-ui/public'))
+// server.use(express.static(__dirname + '/client-ui/public'))
+server.use(express.static(__dirname + '/dist'))
 
 // Es6Renderer setup
 server.engine('html', es6Renderer);

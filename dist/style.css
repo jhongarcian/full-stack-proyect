@@ -126,10 +126,12 @@ header {
 .navs {
   display: flex;
   justify-content: space-between;
+  background-color: var(--clr-primary-6)
 }
 
 .navs a {
   margin: 0 0 0 24px;
+  background-color: var(--clr-primary-6)
 }
 
 .navs a:first-of-type {
