@@ -89,11 +89,18 @@ server.get("/heartbeat", (req, res) => {
 	res.json({"is":"working", "status":"good"});
 });
 
+// Example => set our /view
+// server.get('/fileName', (req, res) => {
+// 	res.render('index', {
+// 	  partials: setMainView('fileName')
+// 	});
+// });
+
 server.get('/favorite', (req, res) => {
 	res.render('index', {
 	  partials: setMainView('favorite')
 	});
-  });
+});
 
 // Server PORT listening.
 server.listen(PORT, () => {
