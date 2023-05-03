@@ -29,8 +29,10 @@ server.set('views', 'views');
 server.set('view engine', 'html');
 
 // Homepage endpoint
-server.get('/', (req, res) => {
+server.get('/',async (req, res) => {
+	const products = await getProducts()
 	res.render('index', {
+		locals: {products},
 		partials: setMainView('landing')
 	})
 })
