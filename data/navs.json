@@ -1,0 +1,37 @@
+[
+  {
+    "href": "/",
+    "name": "Home"
+  },
+  {
+    "href": "/favorites",
+    "name": "Favorites"
+  },
+  {
+    "href": "/cart",
+    "name": "Cart"
+  },
+  {
+    "href": "/products",
+    "name": "Products"
+  },
+  {
+    "href": "/meet-the-team",
+    "name": "Our Team"
+  },
+  {
+    "href": "/profile",
+    "isPrivate": true,
+    "name": "Profile"
+  },
+  {
+    "href": "/login",
+    "isPrivate": false,
+    "name": "Login"
+  },
+  {
+    "href": "/logout",
+    "isPrivate": true,
+    "name": "Logout"
+  }
+]
