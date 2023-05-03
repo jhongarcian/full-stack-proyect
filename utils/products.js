@@ -8,7 +8,7 @@ const cn = {
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     allowExitOnIdle: process.env.DB_ALLOWEXITONIDLE 
-}
+};
 
 const db = pgp(cn);
 

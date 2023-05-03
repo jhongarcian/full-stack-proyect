@@ -15,17 +15,17 @@ const SECRET = process.env.SECRET
 
 server.use(express.json());
 server.use(cookieParser())
-server.use(sessions({
+server.use(sessions({ 
     secret: SECRET,
     saveUninitialized: true,
     cookie: { maxAge: 30000 },
     resave: false
-}))
+}));
 
 const validCreds = {
     password: "1234",
     username: "John"
-}
+};
 
 // style.css and main.js middleware
 server.use(express.static(__dirname + '/client-ui/public'))
@@ -76,7 +76,7 @@ server.post('/create-checkout-session', async (req, res) => {
 	} catch (e) {
 		res.status(500).json({ error: e.message})
 	}
-})
+});
 
 // Homepage endpoint
 server.get('/',async (req, res) => {
@@ -88,13 +88,13 @@ server.get('/',async (req, res) => {
 		},
 		partials: setMainView('landing')
 	})
-})
+});
 
 // Success endpoint
 server.get('/success', (req, res) => {
 	res.render('index')
 	// Need to create a the partials 
-})
+});
 
 // Health endpoint created.
 server.get("/heartbeat", (req, res) => {
@@ -107,22 +107,42 @@ server.get("/heartbeat", (req, res) => {
 // 	  partials: setMainView('fileName')
 // 	});
 // });
-
-server.get('/favorite', (req, res) => {
+server.get('/cart', (req, res) => {
 	res.render('index', {
-	  partials: setMainView('favorite')
+		locals: {
+			navs: setNavs(req.url, navs, !!req.session.userId)
+		},
+		partials: setMainView('cart')
+	});
+});
+
+server.get('/favorites', (req, res) => {
+	res.render('index', {
+		locals: {
+			navs: setNavs(req.url, navs, !!req.session.userId)
+		},
+	  partials: setMainView('favorites')
+	});
+});
+
+server.get('/products', (req, res) => {
+	res.render('index', {
+		locals: {
+			navs: setNavs(req.url, navs, !!req.session.userID)
+		},
+		partials: setMainView('products')
 	});
 });
 
 server.get('/product-list', async (req, res) => {
 	const products = await getProducts()
 	res.json(products)
-})
+});
 
 server.get("/logout", (req, res) => {
     req.session.destroy();
     res.redirect("/");
-})
+});
 
 server.post("/login", (req, res) => {
     const afterLogin = {
@@ -137,7 +157,7 @@ server.post("/login", (req, res) => {
         afterLogin.redirectTo = "/profile";
     }
     res.json(afterLogin)
-})
+});
 
 server.get("/login", (req, res) => {
     res.render("index", {
@@ -146,7 +166,7 @@ server.get("/login", (req, res) => {
 		},
         partials: setMainView("login")
     })
-})
+});
 
 // Server PORT listening.
 server.listen(PORT, () => {
