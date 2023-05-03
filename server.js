@@ -78,6 +78,14 @@ server.get("/heartbeat", (req, res) => {
 	res.json({"is":"working", "status":"good"});
 });
 
+server.get('/favorite', (req, res) => {
+	res.render('index', {
+	  partials: {
+		favorite: 'partials/favorite',
+	  }
+	});
+  });
+
 // Server PORT listening.
 server.listen(PORT, () => {
 	console.log(`The server is running at PORT ${PORT}`)
