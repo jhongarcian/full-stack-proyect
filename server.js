@@ -1,5 +1,6 @@
 // Utils functions 
-const { setMainView } = require('./utils')
+const { setMainView } = require('./utils/index.js')
+const { getProducts } = require('./utils/products.js')
 
 // dotenv
 require('dotenv').config();
@@ -101,6 +102,11 @@ server.get('/favorite', (req, res) => {
 	  partials: setMainView('favorite')
 	});
 });
+
+server.get('/product-list', async (req, res) => {
+	const products = await getProducts()
+	res.json(products)
+})
 
 // Server PORT listening.
 server.listen(PORT, () => {
