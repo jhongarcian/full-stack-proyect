@@ -1,6 +1,7 @@
 // Utils functions 
 const { setMainView, setNavs } = require('./utils/index.js')
 const { getProducts } = require('./utils/products.js')
+const pgp = require('pg-promise')();
 const navs = require('./data/navs.json')
 
 require('dotenv').config();
@@ -12,6 +13,17 @@ const sessions = require("express-session");
 const PORT = process.env.PORT || 5050;
 const server = express();
 const SECRET = process.env.SECRET
+
+const cn = {
+    host: 'localhost',
+    port: 5432,
+    database: 'products',
+    user: 'postgres',
+    password: 'test',
+    allowExitOnIdle: true
+};
+
+const db = pgp(cn);
 
 server.use(express.json());
 server.use(cookieParser())
@@ -126,12 +138,17 @@ server.get('/favorites', (req, res) => {
 	});
 });
 
-server.get('/products', (req, res) => {
+server.get('/products', async (req, res) => {
+	const result = await db.query('SELECT * FROM stock;')
+	const mainView = setMainView('products')
 	res.render('index', {
 		locals: {
-			navs: setNavs(req.url, navs, !!req.session.userID)
+			navs: setNavs(req.url, navs, !!req.session.userID),
+			title: result
 		},
-		partials: setMainView('products')
+		partials: {
+			result: 'partials/main/products',
+			...mainView}
 	});
 });
 
