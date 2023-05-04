@@ -12,18 +12,7 @@ const sessions = require("express-session");
 
 const PORT = process.env.PORT || 5050;
 const server = express();
-const SECRET = process.env.SECRET
-
-const cn = {
-    host: 'localhost',
-    port: 5432,
-    database: 'products',
-    user: 'postgres',
-    password: 'test',
-    allowExitOnIdle: true
-};
-
-const db = pgp(cn);
+const SECRET = process.env.SECRET;
 
 server.use(express.json());
 server.use(cookieParser())
@@ -139,7 +128,7 @@ server.get('/favorites', (req, res) => {
 });
 
 server.get('/products', async (req, res) => {
-	const result = await db.query('SELECT * FROM stock;')
+	const result = await getProducts()
 	const mainView = setMainView('products')
 	res.render('index', {
 		locals: {
