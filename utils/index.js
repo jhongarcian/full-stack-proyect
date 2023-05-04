@@ -5,7 +5,7 @@ function setMainView(view){
         footer: "partials/footer",
         main: `partials/main/${view}`
     }
-}
+};
 
 function setNavs(currentHref, navs, isAuthenticated) {
     const _navs = navs.map(nav => {
@@ -22,6 +22,6 @@ function setNavs(currentHref, navs, isAuthenticated) {
         }
     })
     return {navs: _navs}
-}
+};
 
 module.exports = { setMainView, setNavs };

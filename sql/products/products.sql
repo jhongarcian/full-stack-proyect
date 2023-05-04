@@ -32,3 +32,4 @@ VALUES
 
 SELECT * FROM stock;
 
+-- psql -U postgres -f ./sql/setup.sql
