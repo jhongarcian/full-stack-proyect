@@ -1,6 +1,6 @@
 // Utils functions 
 const { setMainView, setNavs } = require('./utils/index.js')
-const { getProducts } = require('./utils/products.js')
+const { getProducts, getProductsLimitFour } = require('./utils/products.js')
 const pgp = require('pg-promise')();
 const navs = require('./data/navs.json')
 
@@ -83,6 +83,7 @@ server.post('/create-checkout-session', async (req, res) => {
 // Homepage endpoint
 server.get('/',async (req, res) => {
 	const products = await getProducts()
+	// const fourProducts = await getProductsLimitFour()
 	res.render('index', {
 		locals: {
 			products,

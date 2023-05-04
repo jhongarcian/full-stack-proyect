@@ -17,4 +17,10 @@ async function getProducts() {
     return products;
 };
 
+// async function getProductsLimitFour() {
+//     const products = await db.any('SELECT * FROM stock WHERE category = Electronics LIMIT 4;');
+//     return products
+
+// }
+
 module.exports = { getProducts }
