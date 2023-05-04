@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js",
+    "development": "nodemon server.js",
+    "dev": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,6 +22,7 @@
     "stripe": "^12.3.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "tailwindcss": "^3.3.2"
   }
 }
