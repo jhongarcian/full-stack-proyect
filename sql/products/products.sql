@@ -7,26 +7,30 @@ CREATE TABLE stock (
   name VARCHAR(255) NOT NULL,
   priceincents INT NOT NULL,
   category VARCHAR(255) NOT NULL,
+  image_url_one VARCHAR(300),
+  image_url_two VARCHAR(300),
+  image_url_three VARCHAR(300),
   PRIMARY KEY (id)
 );
 
-INSERT INTO stock (id, name, priceincents, category)
+INSERT INTO stock (id, name, priceincents, category, image_url_one, image_url_two, image_url_three)
 VALUES
-  (1, 'Smartphone', 100000, 'Electronics'),
-  (2, 'Laptop', 800000, 'Electronics'),
-  (3, 'Tablet', 50000, 'Electronics'),
-  (4, 'Smartwatch', 30000, 'Electronics'),
-  (5, 'Headphones', 20000, 'Electronics'),
-  (6, 'Bluetooth Speaker', 50000, 'Electronics'),
-  (7, 'Wireless Mouse', 20000, 'Electronics'),
-  (8, 'Smart TV', 1000000, 'Electronics'),
-  (9, 'Fitness Tracker', 40000, 'Electronics'),
-  (10, 'Digital Camera', 150000, 'Electronics'),
-  (11, 'Gaming Console', 300000, 'Electronics'),
-  (12, 'E-book Reader', 80000, 'Electronics'),
-  (13, 'External Hard Drive', 120000, 'Electronics'),
-  (14, 'Wireless Earbuds', 50000, 'Electronics'),
-  (15, 'Smart Home Hub', 70000, 'Electronics');
+  (1, 'Samsung Galaxy S21', 79900, 'Smartphones', 'url_1', 'url_2', 'url_3'),
+  (2, 'iPhone 13', 79900, 'Smartphones', 'url_1', 'url_2', 'url_3'),
+  (3, 'Google Pixel 6', 69900, 'Smartphones', 'url_1', 'url_2', 'url_3'),
+  (4, 'OnePlus 9 Pro', 69900, 'Smartphones', 'url_1', 'url_2', 'url_3'),
+  (5, 'iPad Air', 64900, 'Tablets', 'url_1', 'url_2', 'url_3'),
+  (6, 'Samsung Galaxy Tab S7', 64900, 'Tablets', 'url_1', 'url_2', 'url_3'),
+  (7, 'Microsoft Surface Pro 8', 109900, 'Tablets', 'url_1', 'url_2', 'url_3'),
+  (8, 'iPad Pro', 79900, 'Tablets', 'url_1', 'url_2', 'url_3'),
+  (9, 'Dell XPS 13', 109900, 'Laptops', 'url_1', 'url_2', 'url_3'),
+  (10, 'MacBook Air', 99900, 'Laptops', 'url_1', 'url_2', 'url_3'),
+  (11, 'Lenovo ThinkPad X1 Carbon', 119900, 'Laptops', 'url_1', 'url_2', 'url_3'),
+  (12, 'ASUS ZenBook UX425', 89900, 'Laptops', 'url_1', 'url_2', 'url_3'),
+  (13, 'Logitech K810', 4999, 'Keyboards', 'url_1', 'url_2', 'url_3'),
+  (14, 'Microsoft Sculpt Ergonomic', 7999, 'Keyboards', 'url_1', 'url_2', 'url_3'),
+  (15, 'Corsair K70', 9999, 'Keyboards', 'url_1', 'url_2', 'url_3'),
+  (16, 'Razer Blackwidow Elite', 14999, 'Keyboards', 'url_1', 'url_2', 'url_3');
 
 -- Get the entire list of products 
 
