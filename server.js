@@ -83,10 +83,12 @@ server.post('/create-checkout-session', async (req, res) => {
 // Homepage endpoint
 server.get('/',async (req, res) => {
 	const products = await getProducts()
-	// const fourProducts = await getProductsLimitFour()
+	const fourProducts = await getProductsLimitFour('Electronics')
+	console.log(fourProducts)
 	res.render('index', {
 		locals: {
 			products,
+			fourProducts,
 			navs: setNavs(req.url, navs, !!req.session.userId)
 		},
 		partials: setMainView('landing')
