@@ -2,6 +2,7 @@
 const { setMainView, setNavs } = require('./utils/index.js')
 const { getProducts, getProductsLimitFour } = require('./utils/products.js')
 const { categorySection, titleSection, heroSection } = require('./utils/landingPage.js')
+const {	reformatItems, reformatSession } = require('./utils/stripe.js');
 const pgp = require('pg-promise')();
 const navs = require('./data/navs.json')
 const querystring = require('querystring')
@@ -104,24 +105,28 @@ server.get('/',async (req, res) => {
 
 // Success endpoint
 server.get('/success', async (req, res) => {
-
+	// Return the id from the url params
 	const urlSring = req.url;
 	const parsedUrl = url.parse(urlSring);
 	const queryString = parsedUrl.query;
 
 	const queryParams = querystring.parse(queryString)
 	const sessionId = queryParams.session_id;
-	console.log(sessionId)
-	const session = await stripe.checkout.sessions.retrieve(sessionId);
-	const items = await stripe.checkout.sessions.listLineItems(
-		sessionId,
-		{limit: 10 }
-	)
-	const product = await stripe.products.retrieve(
-		items.data[0].price.product
-	)
-	console.log(session)
-	res.json({session, items, product})
+
+	try {
+		
+		const session = await stripe.checkout.sessions.retrieve(sessionId);
+		const items = await stripe.checkout.sessions.listLineItems(
+			sessionId,
+			{limit: 10 }
+		)
+		const sessionResult = reformatSession(session, items);
+
+		res.json({sessionResult});
+		return
+	} catch (error) {
+		console.error(error)
+	}
 	// const customer = await stripe.customers.retrieve(session.customer);
 	// res.render('index', {
 	// 	locals: {
