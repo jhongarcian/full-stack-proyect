@@ -17,4 +17,10 @@ async function getProducts() {
     return products;
 };
 
-module.exports = { getProducts }
+async function getProductsLimitFour(name) {
+    const products = await db.any(`SELECT category, name, priceincents FROM stock WHERE category = '${name}' LIMIT 4;`);
+    return products
+
+}
+
+module.exports = { getProducts, getProductsLimitFour }

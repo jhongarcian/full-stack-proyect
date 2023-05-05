@@ -1,6 +1,6 @@
 // Utils functions 
 const { setMainView, setNavs } = require('./utils/index.js')
-const { getProducts } = require('./utils/products.js')
+const { getProducts, getProductsLimitFour } = require('./utils/products.js')
 const pgp = require('pg-promise')();
 const navs = require('./data/navs.json')
 
@@ -12,18 +12,7 @@ const sessions = require("express-session");
 
 const PORT = process.env.PORT || 5050;
 const server = express();
-const SECRET = process.env.SECRET
-
-const cn = {
-    host: 'localhost',
-    port: 5432,
-    database: 'products',
-    user: 'postgres',
-    password: 'test',
-    allowExitOnIdle: true
-};
-
-const db = pgp(cn);
+const SECRET = process.env.SECRET;
 
 server.use(express.json());
 server.use(cookieParser())
@@ -94,9 +83,12 @@ server.post('/create-checkout-session', async (req, res) => {
 // Homepage endpoint
 server.get('/',async (req, res) => {
 	const products = await getProducts()
+	const fourProducts = await getProductsLimitFour('Electronics')
+	console.log(fourProducts)
 	res.render('index', {
 		locals: {
 			products,
+			fourProducts,
 			navs: setNavs(req.url, navs, !!req.session.userId)
 		},
 		partials: setMainView('landing')
@@ -139,7 +131,7 @@ server.get('/favorites', (req, res) => {
 });
 
 server.get('/products', async (req, res) => {
-	const result = await db.query('SELECT * FROM stock;')
+	const result = await getProducts()
 	const mainView = setMainView('products')
 	res.render('index', {
 		locals: {
