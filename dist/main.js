@@ -1,4 +1,4 @@
-const button = document.querySelector("button")
+const button = document.querySelector("[button]")
 if(button) {
     button.addEventListener("click", async () => {
         const options = {
