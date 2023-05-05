@@ -1,8 +1,11 @@
 // Utils functions 
 const { setMainView, setNavs } = require('./utils/index.js')
 const { getProducts, getProductsLimitFour } = require('./utils/products.js')
+const { categorySection, titleSection, heroSection } = require('./utils/landingPage.js')
 const pgp = require('pg-promise')();
 const navs = require('./data/navs.json')
+const querystring = require('querystring')
+const url = require('url')
 
 require('dotenv').config();
 const express = require('express');
@@ -40,15 +43,11 @@ server.set('view engine', 'html');
 // Stripe checkout
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 
-// Store items 
-const storeItems = new Map([
-	[1, {priceInCents: 10000, name: 'Item 1', images: ["https://images.pexels.com/photos/1545743/pexels-photo-1545743.jpeg"]}],
-	[2, {priceInCents: 20000, name: 'Item 2', images: ['https://images.pexels.com/photos/1545743/pexels-photo-1545743.jpeg']}]
-]);
-
 // Post endpoint for stripe 
 server.post('/create-checkout-session', async (req, res) => {
+	const listOfProducts = await getProducts()
 	try {
+		
 		const session = await stripe.checkout.sessions.create({
 			// Credit Cards only
 			payment_method_types: ['card'],
@@ -56,22 +55,23 @@ server.post('/create-checkout-session', async (req, res) => {
 			mode: 'payment',
 			// items that we are adding with details inc from client req
 			line_items: req.body.items.map(item => {
-				const storeItem = storeItems.get(item.id)
+				// const storeItem = storeItems.get(item.id)
+				const storeItem = listOfProducts.find(e => e.id === item.id);
+				console.log(storeItem)
 				return {
 					price_data: {
 						currency: 'usd',
 						product_data: {
-							name: storeItem.name,
-							images: storeItem.images
+							name: storeItem.name
 						},
-						unit_amount: storeItem.priceInCents,
+						unit_amount: storeItem.priceincents,
 					},
 					quantity: item.quantity
 				}
 			}),
 			// redirect urls 
-			success_url:`${process.env.SERVER_URL}/success`,
-			cancel_url: `${process.env.SERVER_URL}/cancel`,
+			success_url:`${process.env.SERVER_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+			cancel_url: `${process.env.SERVER_URL}`
 		})
 		// response url => stripe
 		res.json({url: session.url});
@@ -82,23 +82,52 @@ server.post('/create-checkout-session', async (req, res) => {
 
 // Homepage endpoint
 server.get('/',async (req, res) => {
-	const products = await getProducts()
-	const fourProducts = await getProductsLimitFour('Electronics')
-	console.log(fourProducts)
+	const products = await getProducts();
+	const smartphones = await getProductsLimitFour('Smartphones');
+	const tablets = await getProductsLimitFour('Tablets');
+	const laptops = await getProductsLimitFour('Laptops');
+	const keyboards = await getProductsLimitFour('Keyboards');
 	res.render('index', {
 		locals: {
 			products,
-			fourProducts,
+			heroSection: heroSection(),
+			smartphones: categorySection(smartphones, 'left'),
+			tablets: categorySection(tablets, "right"),
+			laptops: categorySection(laptops, 'left'),
+			keyboards: categorySection(keyboards, "right"),
+			titleSection: titleSection(),
 			navs: setNavs(req.url, navs, !!req.session.userId)
 		},
 		partials: setMainView('landing')
-	})
+	});
 });
 
 // Success endpoint
-server.get('/success', (req, res) => {
-	res.render('index')
-	// Need to create a the partials 
+server.get('/success', async (req, res) => {
+
+	const urlSring = req.url;
+	const parsedUrl = url.parse(urlSring);
+	const queryString = parsedUrl.query;
+
+	const queryParams = querystring.parse(queryString)
+	const sessionId = queryParams.session_id;
+	console.log(sessionId)
+	const session = await stripe.checkout.sessions.retrieve(sessionId);
+	const items = await stripe.checkout.sessions.listLineItems(
+		sessionId,
+		{limit: 10 }
+	)
+	const product = await stripe.products.retrieve(
+		items.data[0].price.product
+	)
+	console.log(session)
+	res.json({session, items, product})
+	// const customer = await stripe.customers.retrieve(session.customer);
+	// res.render('index', {
+	// 	locals: {
+	// 	},
+	// 	partials: setMainView("success")
+	// })
 });
 
 // Health endpoint created.
