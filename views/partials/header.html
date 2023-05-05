@@ -1,7 +1,11 @@
-<header>
-  <nav class="navs y-wrap">
+<header class="bg-neutral-800 py-5 group">
+  <nav class="navs flex justify-between my-0 mx-auto w-11/12 gap-6">
     ${navs.navs.map(nav => `
-    <a class="${nav.className}" href="${nav.href}">${nav.name}</a>
+    <a
+      class="text-stone-200 hover:text-stone-400 ${nav.className} first:ms-0 first:me-auto"
+      href="${nav.href}"
+      >${nav.name}</a
+    >
     `).join("")}
   </nav>
 </header>

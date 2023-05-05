@@ -11,7 +11,8 @@ function setNavs(currentHref, navs, isAuthenticated) {
     const _navs = navs.map(nav => {
         nav.className = "";
         if(nav.href === currentHref){
-            nav.className = "active"
+            // nav.className = "active"
+            nav.className = "active:bg-blue-600"
         }
         return nav
     }).filter(nav => {
