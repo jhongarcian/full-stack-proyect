@@ -73,7 +73,7 @@ function heroSection() {
             </p>
             <a
             href="/products"
-            class="transition duration-300 ease-in-out hover:scale-125 bg-white rounded hover:cursor-pointer hover:bg-transparent hover:text-neutral-50 border-2 px-6 py-3"
+            class="transition duration-300 ease-in-out hover:scale-125 bg-white rounded cursor-pointer hover:bg-transparent hover:text-neutral-50 border-2 px-6 py-3"
             >
             Shop New Arrivals
             </a>
