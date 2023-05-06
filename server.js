@@ -152,12 +152,21 @@ server.get('/products', async (req, res) => {
 	});
 });
 
-server.get("/products/id/:id", async (req, res) => {
-    const {id} = req.id;
+server.get("/products/:id", async (req, res) => {
+    const id = req.params.id;
     const products = await getProducts()
-	const result = products.find(e => e.id === id);
-    res.json((result));
-    
+	console.log(products)
+	const result = products.find((e) => {
+		return e.id == id;
+	  });
+	console.log(result)
+    res.render('index', {
+		locals: {
+			navs: setNavs(req.url, navs, !!req.session.userID),
+			products: result
+		},
+		partials: setMainView(`singleproduct`)
+	});
 });
 
 server.get('/product-list', async (req, res) => {
