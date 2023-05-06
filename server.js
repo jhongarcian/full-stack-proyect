@@ -89,6 +89,7 @@ server.get('/',async (req, res) => {
 	const tablets = await getProductsLimitFour('Tablets');
 	const laptops = await getProductsLimitFour('Laptops');
 	const keyboards = await getProductsLimitFour('Keyboards');
+
 	res.render('index', {
 		locals: {
 			products,
