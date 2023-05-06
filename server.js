@@ -2,7 +2,7 @@
 const { setMainView, setNavs } = require('./utils/index.js')
 const { getProducts, getProductsLimitFour } = require('./utils/products.js')
 const { categorySection, titleSection, heroSection } = require('./utils/landingPage.js')
-const {	reformatItems, reformatSession } = require('./utils/stripe.js');
+const { reformatSession } = require('./utils/stripe.js');
 const { success } = require('./utils/success')
 const pgp = require('pg-promise')();
 const navs = require('./data/navs.json')
@@ -133,12 +133,6 @@ server.get('/success', async (req, res) => {
 	} catch (error) {
 		console.error(error)
 	}
-	// const customer = await stripe.customers.retrieve(session.customer);
-	// res.render('index', {
-	// 	locals: {
-	// 	},
-	// 	partials: setMainView("success")
-	// })
 });
 
 // Health endpoint created.
