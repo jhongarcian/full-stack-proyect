@@ -7,245 +7,35 @@
     <title>Document</title>
   </head>
   <body>
-    <!-- <div class="flex"> ${title.map(e => {
-        return (`<div class="flex">
-          <button id=${e.id}><p>${e.name}</p><p>${e.category}</p></button>
-        </div>`)})} 
+    <!-- <div class="flex bg-white"> ${products.map(e => {
+        return (`<div class="flex mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+                      <button id=${e.id}>
+                        <p class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">${e.name}</p>
+                        <p>${e.category}</p>
+                        <p>${e.priceincents}</p>
+                      </button>
+                </div>`)})} 
     </div> -->
-
+    
     <div class="bg-white">
-      <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-        <h2 class="sr-only">Products</h2>
-        
-        <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src= "backendphotos/zenith.png" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75"> 
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">Zenith</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$150</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/NovaTech.png" alt="Olive drab green insulated bottle with flared screw lid and flat top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">NovaTech</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/hyperion.png" alt="Person using a pen to cross a task off a productivity paper card." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">Hyperion</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$89</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/Phoenix.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">Phoenix</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/Aurora.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">Aurora</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/Nebula.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">Nebula</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/Vortex.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">Vortex</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/ApexTech.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">ApexTech</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/Velocity.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">Velocity</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/Quantum.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">Quantum</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/hypernova.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">Hypernova</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/Thunderbolt.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">Thunderbolt</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/Fusion.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">Fusion</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/Infinity.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">Infinity</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/TitanTech.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">TitanTech</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/Blaze.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">Blaze</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/PixelPad.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">PixelPad</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/MatrixTab.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">MatrixTab</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/Neoteric.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">Neoteric</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/VelocityTab.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">VelocityTab</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/Nexus.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">Nexus</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/SkyPad.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">SkyPad</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/PhoenixTab.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">PhoenixTab</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/Stellar.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">Stellar</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/TimeShift.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">TimeShift</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/HyperionWatch.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">HyperionWatch</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/ZenithTime.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">ZenithTime</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/NovaWatch.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">NovaWatch</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/SkyTime.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">SkyTime</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/FusionWatch.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">FusionWatch</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$450</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/ApexTime.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">ApexTime</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <a href="#" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img src="backendphotos/VortexWatch.png" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">VortexWatch</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
-          </a>
-          <!-- More products... -->
-        </div>
-      </div>
-    </div>
+       <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+         <h2 class="sr-only">Products</h2>
+         <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+            ${products.map(e => {
+             return (`
+             <a href="#" class="group">
+             <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+               <img src= "${e.image_url_one}" alt=""> 
+             </div>
+             <h3 class="mt-4 text-sm text-gray-700">${e.name}</h3>
+             <p class="mt-1 text-lg font-medium text-gray-900">$ ${e.priceincents /100}</p>
+           </a>`)}).join('')}
+         </div>
+       </div>
+     </div> 
+
+
+
     
   </body>
 </html>
