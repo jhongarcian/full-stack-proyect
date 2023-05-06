@@ -3,6 +3,7 @@ const { setMainView, setNavs } = require('./utils/index.js')
 const { getProducts, getProductsLimitFour } = require('./utils/products.js')
 const { categorySection, titleSection, heroSection } = require('./utils/landingPage.js')
 const {	reformatItems, reformatSession } = require('./utils/stripe.js');
+const { success } = require('./utils/success')
 const pgp = require('pg-promise')();
 const navs = require('./data/navs.json')
 const querystring = require('querystring')
@@ -121,10 +122,9 @@ server.get('/success', async (req, res) => {
 			{limit: 10 }
 		)
 		const sessionResult = reformatSession(session, items);
-		console.log(sessionResult)
 		res.render('index', {
 			locals: {
-				dataFromCheckout: sessionResult,
+				successHtml: success(sessionResult),
 				navs: setNavs(req.url, navs, !!req.session.userId)
 			},
 			partials: setMainView(`success`)
