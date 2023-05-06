@@ -140,12 +140,6 @@ server.get("/heartbeat", (req, res) => {
 	res.json({"is":"working", "status":"good"});
 });
 
-// Example => set our /view
-// server.get('/fileName', (req, res) => {
-// 	res.render('index', {
-// 	  partials: setMainView('fileName')
-// 	});
-// });
 server.get('/cart', (req, res) => {
 	res.render('index', {
 		locals: {
