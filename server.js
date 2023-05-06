@@ -109,20 +109,26 @@ server.get('/success', async (req, res) => {
 	const urlSring = req.url;
 	const parsedUrl = url.parse(urlSring);
 	const queryString = parsedUrl.query;
+	console.log(queryString)
 
 	const queryParams = querystring.parse(queryString)
 	const sessionId = queryParams.session_id;
 
 	try {
-		
 		const session = await stripe.checkout.sessions.retrieve(sessionId);
 		const items = await stripe.checkout.sessions.listLineItems(
 			sessionId,
 			{limit: 10 }
 		)
 		const sessionResult = reformatSession(session, items);
-
-		res.json({sessionResult});
+		console.log(sessionResult)
+		res.render('index', {
+			locals: {
+				dataFromCheckout: sessionResult,
+				navs: setNavs(req.url, navs, !!req.session.userId)
+			},
+			partials: setMainView(`success`)
+		})
 		return
 	} catch (error) {
 		console.error(error)
