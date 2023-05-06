@@ -13,16 +13,6 @@ const sessions = require("express-session");
 const PORT = process.env.PORT || 5050;
 const server = express();
 const SECRET = process.env.SECRET;
-// const db = process.env.PRODUCTS_DB_PORT
-
-// const cn = {
-//     host: process.env.DB_HOST,
-//     port: process.env.DB_PORT,
-//     database: process.env.PRODUCTS_DB_PORT,
-//     user: process.env.DB_USER,
-//     password: process.env.DB_PASSWORD,
-//     allowExitOnIdle: process.env.DB_ALLOWEXITONIDLE
-// };
 
 
 server.use(express.json());
