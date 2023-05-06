@@ -162,6 +162,14 @@ server.get('/products', async (req, res) => {
 	});
 });
 
+server.get("/products/id/:id", async (req, res) => {
+    const {id} = req.id;
+    const products = await getProducts()
+	const result = products.find(e => e.id === id);
+    res.json((result));
+    
+});
+
 server.get('/product-list', async (req, res) => {
 	const products = await getProducts()
 	res.json(products)
