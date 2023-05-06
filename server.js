@@ -83,7 +83,9 @@ server.post('/create-checkout-session', async (req, res) => {
 // Homepage endpoint
 server.get('/',async (req, res) => {
 	const products = await getProducts()
+
 	const fourProducts = await getProductsLimitFour('Smartphones')
+
 	console.log(fourProducts)
 	res.render('index', {
 		locals: {
