@@ -1,4 +1,5 @@
 // Utils functions 
+require('dotenv').config();
 const { setMainView, setNavs } = require('./utils/index.js')
 const { getProducts, getProductsLimitFour } = require('./utils/products.js')
 const { categorySection, titleSection, heroSection } = require('./utils/landingPage.js')
@@ -9,7 +10,6 @@ const navs = require('./data/navs.json')
 const querystring = require('querystring')
 const url = require('url')
 
-require('dotenv').config();
 const express = require('express');
 const es6Renderer = require('express-es6-template-engine');
 const cookieParser = require("cookie-parser");
