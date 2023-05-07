@@ -10,7 +10,7 @@ const navs = require('./data/navs.json')
 const querystring = require('querystring')
 const url = require('url')
 
-
+require('dotenv').config();
 const express = require('express');
 const es6Renderer = require('express-es6-template-engine');
 const cookieParser = require("cookie-parser");
@@ -61,7 +61,6 @@ server.post('/create-checkout-session', async (req, res) => {
 			line_items: req.body.items.map(item => {
 				// const storeItem = storeItems.get(item.id)
 				const storeItem = listOfProducts.find(e => e.id === item.id);
-				console.log(storeItem)
 				return {
 					price_data: {
 						currency: 'usd',
