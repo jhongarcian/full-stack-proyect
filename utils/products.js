@@ -1,4 +1,5 @@
 const pgp = require('pg-promise')({ capSQL: true });
+const pgp = require('pg-promise')({ capSQL: true });
 require('dotenv').config();
 
 const cn = {

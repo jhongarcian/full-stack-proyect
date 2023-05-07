@@ -72,7 +72,6 @@ server.post('/create-checkout-session', async (req, res) => {
 					quantity: item.quantity
 				}
 			}),
-
 			// redirect urls 
 			success_url:`${process.env.SERVER_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
 			cancel_url: `${process.env.SERVER_URL}`
