@@ -25,4 +25,8 @@ function setNavs(currentHref, navs, isAuthenticated) {
     return {navs: _navs}
 };
 
-module.exports = { setMainView, setNavs };
+function generateId() {
+    return Math.floor(Math.random() * Date.now()).toString(16)
+}
+
+module.exports = { setMainView, setNavs, generateId };

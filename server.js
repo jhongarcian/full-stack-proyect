@@ -73,7 +73,8 @@ server.post('/create-checkout-session', async (req, res) => {
 					quantity: item.quantity
 				}
 			}),
-			// redirect urls 
+			// redirect urls
+			//add this info to order database 
 			success_url:`${process.env.SERVER_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
 			cancel_url: `${process.env.SERVER_URL}`
 		})
@@ -114,11 +115,9 @@ server.get('/success', async (req, res) => {
 	const urlSring = req.url;
 	const parsedUrl = url.parse(urlSring);
 	const queryString = parsedUrl.query;
-	console.log(queryString)
 
 	const queryParams = querystring.parse(queryString)
 	const sessionId = queryParams.session_id;
-
 	try {
 		const session = await stripe.checkout.sessions.retrieve(sessionId);
 		const items = await stripe.checkout.sessions.listLineItems(
@@ -126,6 +125,8 @@ server.get('/success', async (req, res) => {
 			{limit: 10 }
 		)
 		const sessionResult = reformatSession(session, items);
+		const randomIdForDataBase = generateId()
+		addOrderToDataBase(sessionResult, randomIdForDataBase)
 		res.render('index', {
 			locals: {
 				successHtml: success(sessionResult),

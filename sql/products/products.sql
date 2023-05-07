@@ -36,4 +36,34 @@ VALUES
 
 SELECT * FROM stock;
 
+-- Create Orders and order_item tables
+
+CREATE TABLE orders (
+  id VARCHAR(300) PRIMARY KEY,
+  customer_name VARCHAR(255),
+  customer_email VARCHAR(255),
+  subtotal_amount INTEGER,
+  total_amount INTEGER,
+  item_count INTEGER,
+  purchase_date timestamp
+);
+
+CREATE TABLE order_items (
+  id SERIAL PRIMARY KEY,
+  order_id VARCHAR(300) REFERENCES orders(id),
+  item_name VARCHAR(255),
+  item_price INTEGER,
+  quantity INTEGER,
+  amount INTEGER,
+  purchase_date timestamp
+);
+
+-- Next retrives all the paired orders between orders and orders_items 
+
+SELECT o.*, i.*
+FROM orders o
+JOIN order_items i ON o.id = i.order_id
+WHERE o.id = 1;
+
 -- psql -U postgres -f ./sql/setup.sql
+
