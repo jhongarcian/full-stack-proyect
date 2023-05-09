@@ -1,7 +1,7 @@
 // Utils functions 
 require('dotenv').config();
-const { setMainView, setNavs } = require('./utils/index.js')
-const { getProducts, getProductsLimitFour } = require('./utils/products.js')
+const { setMainView, setNavs, generateId, getVisitorsCount } = require('./utils/index.js')
+const { getProducts, getProductsLimitFour, addOrderToDataBase, ordersCount, db } = require('./utils/products.js')
 const { categorySection, titleSection, heroSection } = require('./utils/landingPage.js')
 const { reformatSession } = require('./utils/stripe.js');
 const { success } = require('./utils/success')
@@ -85,13 +85,16 @@ server.post('/create-checkout-session', async (req, res) => {
 });
 
 // Homepage endpoint
-server.get('/',async (req, res) => {
+server.get('/', countViews,async (req, res) => {
 	const products = await getProducts();
 	const smartphones = await getProductsLimitFour('Smartphones');
 	const tablets = await getProductsLimitFour('Tablets');
 	const laptops = await getProductsLimitFour('Laptops');
 	const keyboards = await getProductsLimitFour('Keyboards');
-
+	if(!req.cookies.visited){
+		await db.any('INSERT INTO visitors DEFAULT VALUES;');
+		res.cookie('visited', true, { maxAge:86400000 });
+	}
 	res.render('index', {
 		locals: {
 			products,
@@ -138,6 +141,26 @@ server.get('/success', async (req, res) => {
 		console.error(error)
 	}
 });
+
+let viewCount = 0;
+
+function countViews(req, res, next) {
+  viewCount++;
+  next();
+}
+
+server.get('/dashboard/id', async (req, res) => {
+	const { orders, sales } = await ordersCount()
+	res.render('index', {
+		locals: { 
+			view_count: await getVisitorsCount(),
+			number_of_orders: orders,
+			total_sales: sales,
+			navs: setNavs(req.url, navs, !!req.session.userId)
+		},
+		partials: setMainView('dashboard')
+	})
+})
 
 // Health endpoint created.
 server.get("/heartbeat", (req, res) => {

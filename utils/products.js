@@ -44,8 +44,13 @@ async function addOrderToDataBase(order, id_generated) {
 }
 
 async function doOrderItems(item, date_created, id_number) {
-    console.log(id_number)
     const { amount, currency, itemName, itemPrice, quantity } = item
     const order_items = await db.any(`INSERT INTO order_items (order_id, item_name, item_price, quantity, amount, purchase_date) VALUES ('${id_number}', '${itemName}', ${itemPrice}, ${quantity}, ${amount}, '${date_created}');`);
 }
-module.exports = { getProducts, getProductsLimitFour,addOrderToDataBase }
+
+async function ordersCount() {
+    const orders = (await db.any('SELECT COUNT(id) FROM orders;')).map(e => e.count)[0];
+    const sales = (await db.any('SELECT total_amount FROM orders;')).reduce((prev, current) => ({ total_amount: prev.total_amount + current.total_amount }), { total_amount: 0 }).total_amount;
+    return {orders, sales}
+}
+module.exports = { getProducts, getProductsLimitFour,addOrderToDataBase, ordersCount, db }

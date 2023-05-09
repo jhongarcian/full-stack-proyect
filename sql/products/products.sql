@@ -65,5 +65,12 @@ FROM orders o
 JOIN order_items i ON o.id = i.order_id
 WHERE o.id = 1;
 
+-- Table to track visitors 
+
+CREATE TABLE visitors (
+  id SERIAL PRIMARY KEY,
+  timestamp TIMESTAMP DEFAULT NOW()
+);
+
 -- psql -U postgres -f ./sql/setup.sql
 
