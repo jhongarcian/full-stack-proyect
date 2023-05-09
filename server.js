@@ -1,4 +1,5 @@
 // Utils functions 
+require('dotenv').config();
 const { setMainView, setNavs } = require('./utils/index.js')
 const { getProducts, getProductsLimitFour } = require('./utils/products.js')
 const { categorySection, titleSection, heroSection } = require('./utils/landingPage.js')
@@ -9,7 +10,7 @@ const navs = require('./data/navs.json')
 const querystring = require('querystring')
 const url = require('url')
 
-require('dotenv').config();
+
 const express = require('express');
 const es6Renderer = require('express-es6-template-engine');
 const cookieParser = require("cookie-parser");
@@ -18,6 +19,7 @@ const sessions = require("express-session");
 const PORT = process.env.PORT || 5050;
 const server = express();
 const SECRET = process.env.SECRET;
+
 
 server.use(express.json());
 server.use(cookieParser())
@@ -105,6 +107,7 @@ server.get('/',async (req, res) => {
 	});
 });
 
+
 // Success endpoint
 server.get('/success', async (req, res) => {
 	// Return the id from the url params
@@ -141,6 +144,7 @@ server.get("/heartbeat", (req, res) => {
 	res.json({"is":"working", "status":"good"});
 });
 
+
 server.get('/cart', (req, res) => {
 	res.render('index', {
 		locals: {
@@ -162,6 +166,7 @@ server.get('/favorites', (req, res) => {
 server.get('/products', async (req, res) => {
 	const result = await getProducts()
 	const mainView = setMainView('products')
+
 	res.render('index', {
 		locals: {
 			navs: setNavs(req.url, navs, !!req.session.userID),
