@@ -10,6 +10,7 @@ const navs = require('./data/navs.json')
 const querystring = require('querystring')
 const url = require('url')
 
+
 const express = require('express');
 const es6Renderer = require('express-es6-template-engine');
 const cookieParser = require("cookie-parser");
@@ -19,16 +20,6 @@ const PORT = process.env.PORT || 5050;
 const server = express();
 const SECRET = process.env.SECRET;
 
-const cn = {
-    host: 'localhost',
-    port: 5432,
-    database: 'products',
-    user: 'postgres',
-    password: 'test',
-    allowExitOnIdle: true
-};
-
-const db = pgp(cn);
 
 server.use(express.json());
 server.use(cookieParser())
@@ -113,28 +104,69 @@ server.get('/',async (req, res) => {
 			navs: setNavs(req.url, navs, !!req.session.userId)
 		},
 		partials: setMainView('landing')
-	})
-})
+	});
+});
+
 
 // Success endpoint
-server.get('/success', (req, res) => {
-	res.render('index')
-	// Need to create a the partials 
-})
+server.get('/success', async (req, res) => {
+	// Return the id from the url params
+	const urlSring = req.url;
+	const parsedUrl = url.parse(urlSring);
+	const queryString = parsedUrl.query;
+	console.log(queryString)
+
+	const queryParams = querystring.parse(queryString)
+	const sessionId = queryParams.session_id;
+
+	try {
+		const session = await stripe.checkout.sessions.retrieve(sessionId);
+		const items = await stripe.checkout.sessions.listLineItems(
+			sessionId,
+			{limit: 10 }
+		)
+		const sessionResult = reformatSession(session, items);
+		res.render('index', {
+			locals: {
+				successHtml: success(sessionResult),
+				navs: setNavs(req.url, navs, !!req.session.userId)
+			},
+			partials: setMainView(`success`)
+		})
+		return
+	} catch (error) {
+		console.error(error)
+	}
+});
 
 // Health endpoint created.
 server.get("/heartbeat", (req, res) => {
 	res.json({"is":"working", "status":"good"});
 });
 
-// Example => set our /view
-// server.get('/fileName', (req, res) => {
-// 	res.render('index', {
-// 	  partials: setMainView('fileName')
-// 	});
-// });
 
-server.get('/favorite', (req, res) => {
+server.get('/cart', (req, res) => {
+	res.render('index', {
+		locals: {
+			navs: setNavs(req.url, navs, !!req.session.userId)
+		},
+		partials: setMainView('cart')
+	});
+});
+
+server.get('/favorites', (req, res) => {
+	res.render('index', {
+		locals: {
+			navs: setNavs(req.url, navs, !!req.session.userId)
+		},
+	  partials: setMainView('favorites')
+	});
+});
+
+server.get('/products', async (req, res) => {
+	const result = await getProducts()
+	const mainView = setMainView('products')
+
 	res.render('index', {
 		locals: {
 			navs: setNavs(req.url, navs, !!req.session.userID),
