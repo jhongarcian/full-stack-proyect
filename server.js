@@ -154,16 +154,15 @@ server.get('/products', async (req, res) => {
 
 server.get("/products/:id", async (req, res) => {
     const id = req.params.id;
-    const products = await getProducts()
-	console.log(products)
-	const result = products.find((e) => {
+    const product = await getProducts()
+	const result = product.find((e) => {
 		return e.id == id;
 	  });
 	console.log(result)
     res.render('index', {
 		locals: {
 			navs: setNavs(req.url, navs, !!req.session.userID),
-			products: result
+			product: result
 		},
 		partials: setMainView(`singleproduct`)
 	});
