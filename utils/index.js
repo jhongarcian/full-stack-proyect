@@ -1,3 +1,5 @@
+const { db } = require('./products');
+
 // Server code 
 function setMainView(view){
     return {
@@ -25,4 +27,15 @@ function setNavs(currentHref, navs, isAuthenticated) {
     return {navs: _navs}
 };
 
-module.exports = { setMainView, setNavs };
+function generateId() {
+    return Math.floor(Math.random() * Date.now()).toString(16)
+}
+
+async function getVisitorsCount() {
+    const visitors = (await db.any('SELECT COUNT(*) FROM visitors;')).map(item => item.count)[0];
+    const numberCount = visitors * 1
+    console.log(numberCount)
+    return numberCount
+}
+
+module.exports = { setMainView, setNavs, generateId, getVisitorsCount };

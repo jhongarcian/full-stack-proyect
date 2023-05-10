@@ -112,32 +112,7 @@ p {
     line-height: 1;
   }
 }
-/* Header */
 
-header {
-  background-color: var(--clr-primary-6);
-  padding: 20px 0;
-}
-
-.navs {
-  display: flex;
-  justify-content: space-between;
-  background-color: var(--clr-primary-6)
-}
-
-.navs a {
-  margin: 0 0 0 24px;
-  background-color: var(--clr-primary-6)
-}
-
-.navs a:first-of-type {
-  margin-left: 0;
-  margin-right: auto;
-}
-
-.navs a.active {
-  color: var(--clr-primary-8);
-} */
 
 /* Login */
 body.michaeljones {
@@ -242,8 +217,4 @@ body.michaeljones {
   background-color: grey;
   border-radius: 40px;
 }
-
-/* .navs a.active {
-  color: var(--clr-primary-8);
-} */
 
