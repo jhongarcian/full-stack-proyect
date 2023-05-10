@@ -14,7 +14,7 @@ CREATE TABLE stock (
   PRIMARY KEY (id)
 );
 
-INSERT INTO stock (id, name, priceincents, category, image_url_one, image_url_two)
+INSERT INTO stock (id, name, priceincents, category, favorites, image_url_one, image_url_two)
 VALUES
 (1, 'Zenith', 74500, 'smartphone', 'backendphotos/Zenith.png', 'backendphotos/ZenithTime2.png'),
 (2, 'NovaTech', 98750, 'smartphone', 'backendphotos/NovaTech.png', 'backendphotos/Nexus2.png'),
