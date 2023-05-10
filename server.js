@@ -163,18 +163,40 @@ server.get('/favorites', (req, res) => {
 	});
 });
 
+server.get('/sucess', (req,res) => {
+	res.render('index', {
+		locals: {
+			successHtml: success(sessionResult),
+			navs: setNavs(req.url, navs, !!req.session.userId)
+		},
+		partials: setMainView(`success`)
+	});
+});
+
 server.get('/products', async (req, res) => {
 	const result = await getProducts()
-	const mainView = setMainView('products')
-
 	res.render('index', {
 		locals: {
 			navs: setNavs(req.url, navs, !!req.session.userID),
-			title: result
+			products: result
 		},
-		partials: {
-			result: 'partials/main/products',
-			...mainView}
+		partials: setMainView(`products`)
+	});
+});
+
+server.get("/products/:id", async (req, res) => {
+    const id = req.params.id;
+    const product = await getProducts()
+	const result = product.find((e) => {
+		return e.id == id;
+	  });
+	console.log(result)
+    res.render('index', {
+		locals: {
+			navs: setNavs(req.url, navs, !!req.session.userID),
+			product: result
+		},
+		partials: setMainView(`singleproduct`)
 	});
 });
 
@@ -216,4 +238,6 @@ server.get("/login", (req, res) => {
 server.listen(PORT, () => {
 	console.log(`The server is running at PORT ${PORT}`)
 })
+
+
 
