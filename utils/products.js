@@ -18,7 +18,7 @@ async function getProducts() {
 };
 
 async function getProductsLimitFour(name) {
-    const products = await db.any(`SELECT category, name, priceincents FROM stock WHERE category = '${name}' LIMIT 4;`);
+    const products = await db.any(`SELECT category, name, priceincents, image_url_one, image_url_two FROM stock WHERE category = '${name}' LIMIT 4;`);
     return products
 
 }

@@ -87,10 +87,10 @@ server.post('/create-checkout-session', async (req, res) => {
 server.get('/', countViews,async (req, res) => {
 
 	const products = await getProducts();
-	const smartphones = await getProductsLimitFour('Smartphones');
-	const tablets = await getProductsLimitFour('Tablets');
-	const laptops = await getProductsLimitFour('Laptops');
-	const keyboards = await getProductsLimitFour('Keyboards');
+	const smartphones = await getProductsLimitFour('smartphone');
+	const tablets = await getProductsLimitFour('tablet');
+	const laptops = await getProductsLimitFour('laptop');
+	const keyboards = await getProductsLimitFour('keyboards');
 	if(!req.cookies.visited){
 		await db.any('INSERT INTO visitors DEFAULT VALUES;');
 		res.cookie('visited', true, { maxAge:86400000 });
