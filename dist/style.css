@@ -449,10 +449,6 @@ body.michaeljones {
   .box-form .right {
     width: 100%;
   }
-  .box-form .right .form-btn {
-    margin-left: 140px;
-    margin-top: 30px;
-  }
   .box-form .left .overlay h1 {
     font-size: 5vmax;
   }
@@ -462,7 +458,7 @@ body.michaeljones {
   flex-direction: column;
   justify-content: center;
   margin: 0 auto;
-  max-width: 500px;
+  max-width: 400px;
   overflow: hidden;
 }
 .box-form .right input {
