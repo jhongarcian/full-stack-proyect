@@ -47,7 +47,12 @@ VALUES
 (29, 'SkyTime', 12000, 'smartwatch', 'backendphotos/SkyTime.png', 'backendphotos/SkyTime2.png'),
 (30, 'FusionWatch', 18000, 'smartwatch', 'backendphotos/FusionWatch.png', 'backendphotos/FusionWatch2.png'),
 (31, 'ApexTime', 22000, 'smartwatch', 'backendphotos/ApexTime.png', 'backendphotos/ApexTime2.png'),
-(32, 'VortexWatch', 28000, 'smartwatch', 'backendphotos/VortexWatch.png', 'backendphotos/VortexWatch2.png');
+(32, 'VortexWatch', 28000, 'keyboards', 'backendphotos/VortexWatch.png', 'backendphotos/VortexWatch2.png'),
+(33, 'VortexWatch', 28000, 'keyboards', 'backendphotos/VortexWatch.png', 'backendphotos/VortexWatch2.png'),
+(34, 'VortexWatch', 28000, 'keyboards', 'backendphotos/VortexWatch.png', 'backendphotos/VortexWatch2.png'),
+(35, 'VortexWatch', 28000, 'keyboards', 'backendphotos/VortexWatch.png', 'backendphotos/VortexWatch2.png'),
+(36, 'VortexWatch', 28000, 'keyboards', 'backendphotos/VortexWatch.png', 'backendphotos/VortexWatch2.png'),
+(37, 'VortexWatch', 28000, 'keyboards', 'backendphotos/VortexWatch.png', 'backendphotos/VortexWatch2.png');
 -- (33, 'SonicBloom', 10000, 'headphones'),
 -- (34, 'EchoSound', 7000, 'headphones'),
 -- (35, 'AcousticSoul', 9000, 'headphones'),
