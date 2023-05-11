@@ -315,6 +315,11 @@ server.get('/sign-up', (req, res) => {
 	})
 })
 
+server.post('/sing-up', (req, res) => {
+	const { password, username } = req.body
+	res.json({password, username})
+})
+
 // Server PORT listening.
 server.listen(PORT, () => {
 	console.log(`The server is running at PORT ${PORT}`)

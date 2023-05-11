@@ -106,8 +106,15 @@ if(window.location.pathname === "/login"){
     const form = document.getElementById('form');
     const accountContainer = form.querySelector("#create-account-form")
     
+    const handleSubmit = async (e) => {
+      e.preventDefault()
+      const data = new FormData(e.target);
+      const stringified = stringifyFormData(data);
+      const response = await createUser(stringified)
+    }
 
     renderForm()
+    form.addEventListener('submit', handleSubmit);
 
     function renderForm() {
       const html = `
@@ -125,5 +132,18 @@ if(window.location.pathname === "/login"){
       <a class="text-blue-600 pt-4 text-center sm:text-sm" href="/login">Already have an account?</a>
       `;
       accountContainer.innerHTML = html
+    }
+
+    async function createUser(body) {
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body
+      }
+      const response = await fetch('/sing-up', options);
+      const data = await response.json()
+      console.log(data)
     }
   }
