@@ -292,11 +292,9 @@ server.post("/login", async (req, res) => {
 
     const { password, username } = req.body;
 
-	const result = await getPasswordFromDataBase(username);
+	const password_from_database = await getPasswordFromDataBase(username);
 
-	const password_from_database = result[0].password
-
-	const isValid = await bycrypt.compare(password, password_from_database)
+	const isValid = await bycrypt.compare(password, password_from_database);
 
     if(isValid){
         req.session.userId = username;

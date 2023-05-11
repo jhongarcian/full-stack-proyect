@@ -45,7 +45,7 @@ async function insertNewUserInDataBase(user) {
 
 async function getPasswordFromDataBase(username) {
     const user = await db.any(`SELECT password FROM users WHERE username = '${username}';`)
-    return user
+    return user[0].password
 }
 
 module.exports = { setMainView, setNavs, generateId, getVisitorsCount, insertNewUserInDataBase, getPasswordFromDataBase };
