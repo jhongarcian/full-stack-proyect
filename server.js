@@ -152,7 +152,9 @@ server.get('/success', async (req, res) => {
 	}
 });
 
-server.get('/dashboard/id', async (req, res) => {
+server.get('/dashboard/user/:user', async (req, res) => {
+    const user = req.params.user;
+	console.log(user)
 	console.log('in the dashboard')
 	const { orders, sales } = await ordersCount()
 	res.render('index', {
@@ -160,6 +162,7 @@ server.get('/dashboard/id', async (req, res) => {
 			view_count: await getVisitorsCount(),
 			number_of_orders: orders,
 			total_sales: sales,
+			user_logged: user,
 			navs: setNavs(req.url, navs, !!req.session.userId)
 		},
 		partials: setMainView('dashboard')
@@ -299,7 +302,7 @@ server.post("/login", async (req, res) => {
     if(isValid){
         req.session.userId = username;
         afterLogin.isAuthenticated = true;
-        afterLogin.redirectTo = "/dashboard/id";
+        afterLogin.redirectTo = `/dashboard/user/${username}`;
     }
     res.json(afterLogin)
 });

@@ -30,7 +30,7 @@
     "name": "Login"
   },
   {
-    "href": "/dashboard/id",
+    "href": "/dashboard/user",
     "isPrivate": true,
     "name": "Dashboard"
   },
