@@ -218,3 +218,15 @@ body.michaeljones {
   border-radius: 40px;
 }
 
+.fav {
+  display: flex;
+}
+
+
+#favpage {
+  height: 100vh;
+}
+
+.cart {
+  height: 100vh;
+}
