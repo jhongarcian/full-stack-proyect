@@ -9,14 +9,14 @@
 <body>
   
 
-  ${product.name}
-  <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-    <img src="${product.image_url_one}" alt="">
+  <div>
+    <img src="/${product.image_url_one}" alt="">
   </div>
-
-
+  
+  <div>${product.name}</div>
   <div>$${product.priceincents /100} </div>
-
+  
+  <button class="to-black">Add To Favorites</button>
 </body>
 </html>
 

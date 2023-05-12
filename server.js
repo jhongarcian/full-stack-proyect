@@ -20,6 +20,7 @@ const server = express();
 const SECRET = process.env.SECRET;
 
 
+
 server.use(express.json());
 server.use(cookieParser())
 server.use(sessions({ 
