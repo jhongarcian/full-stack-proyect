@@ -180,6 +180,12 @@ server.get('/cart', (req, res) => {
 	});
 });
 
+server.post("/addToFavorites", async (req, res) => {
+  const { user_id, products_id } = req.body;
+  const newFav = await addToFavs(user_id, products_id);
+  res.send(newFav);
+});
+
 server.get('/favorites', (req, res) => {
 	res.render('index', {
 		locals: {
@@ -199,31 +205,72 @@ server.get('/sucess', (req,res) => {
 	});
 });
 
-server.get('/products', async (req, res) => {
-	const result = await getProducts()
-	res.render('index', {
-		locals: {
-			navs: setNavs(req.url, navs, !!req.session.userID),
-			products: result
-		},
-		partials: setMainView(`products`)
-	});
+server.get("/products", async (req, res) => {
+  let {offnum} = req.headers
+  if (offnum === undefined || offnum === null) {
+	offnum = 0
+  }  
+  const result = await getProductsLimit20(offnum);
+  console.log(result)
+  res.render("index", {
+    locals: {
+      navs: setNavs(req.url, navs, !!req.session.userID),
+      products: result,
+    },
+    partials: setMainView(`products`),
+  });
+});	
+
+/* This code is creating a route for the server to handle GET requests to "/products/:id", where ":id"
+is a dynamic parameter that can be any value. When a request is made to this endpoint, the server
+retrieves the value of the "id" parameter from the request object using "req.params.id". It then
+calls the "getProducts" function to retrieve a list of all products, and uses the "find" method to
+search for the product with the matching ID. The resulting product object is then passed to the
+"index" template using the "res.render" method, along with the navigation links and the name of the
+"singleproduct" partial view. */
+server.get("/products/:id", async (req, res) => {
+  const id = req.params.id;
+  const product = await getProducts();
+  const result = product.find((e) => {
+    return e.id == id;
+  });
+  console.log('hello',result);
+  res.render("index", {
+    locals: {
+      navs: setNavs(req.url, navs, !!req.session.userID),
+      product: result,
+    },
+    partials: setMainView(`singleproduct`),
+  });
 });
 
-server.get("/products/:id", async (req, res) => {
-    const id = req.params.id;
-    const product = await getProducts()
-	const result = product.find((e) => {
-		return e.id == id;
-	  });
-	console.log(result)
-    res.render('index', {
-		locals: {
-			navs: setNavs(req.url, navs, !!req.session.userID),
-			product: result
-		},
-		partials: setMainView(`singleproduct`)
-	});
+server.get("/products/page/products/:id", async (req, res) => {
+  const id = req.params.id;
+  const product = await getProducts();
+  const result = product.find((e) => {
+    return e.id == id;
+  });
+  console.log(result);
+  res.render("index", {
+    locals: {
+      navs: setNavs(req.url, navs, !!req.session.userID),
+      product: result,
+    },
+    partials: setMainView(`singleproduct`),
+  });
+});
+
+server.get("/products/page/:start", async (req, res) => {
+  const start = req.params.start;
+  const products = await getProductsLimit20(start);
+  console.log(products);
+  res.render("index", {
+    locals: {
+      navs: setNavs(req.url, navs, !!req.session.userID),
+      products
+    },
+    partials: setMainView(`products`),
+  });
 });
 
 server.get('/product-list', async (req, res) => {

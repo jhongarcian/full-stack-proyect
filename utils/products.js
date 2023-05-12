@@ -63,4 +63,15 @@ async function ordersCount() {
     const sales = (await db.any('SELECT total_amount FROM orders;')).reduce((prev, current) => ({ total_amount: prev.total_amount + current.total_amount }), { total_amount: 0 }).total_amount;
     return {orders, sales}
 }
+
+async function getFavs(user_id) {
+    const favorites = await db.any(`SELECT * FROM favorites WHERE user_id = ${user_id}`, [true]);
+    return favorites
+}
+
+async function addToFavs(user_id, product_id) {
+    const newFav = await db.any(`INSERT INTO favorites(user_id, product_id) VALUES(${user_id}, ${product_id})`)
+    return newFav
+}
+
 module.exports = { getProducts, getProductsLimitFour,addOrderToDataBase, ordersCount, getFavs, addToFavs, getFavoriteProducts, getProductsLimit20, db }
