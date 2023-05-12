@@ -352,6 +352,15 @@ server.post('/sign-up', async (req, res) => {
 	}
 })
 
+server.get('/meet-the-team', (req, res) => {
+	res.render('index', {
+		locals: {
+			navs: setNavs(req.url, navs, !!req.session.userId)
+		},
+		partials: setMainView('meet-the-team')
+	})
+})
+
 // Server PORT listening.
 server.listen(PORT, () => {
 	console.log(`The server is running at PORT ${PORT}`)
