@@ -14,6 +14,7 @@ CREATE TABLE stock (
   PRIMARY KEY (id)
 );
 
+
 INSERT INTO stock (id, name, priceincents, category, image_url_one, image_url_two)
 VALUES
 (1, 'Zenith', 74500, 'smartphone', 'backendphotos/Zenith.png', 'backendphotos/ZenithTime2.png'),
@@ -47,12 +48,15 @@ VALUES
 (29, 'SkyTime', 12000, 'smartwatch', 'backendphotos/SkyTime.png', 'backendphotos/SkyTime2.png'),
 (30, 'FusionWatch', 18000, 'smartwatch', 'backendphotos/FusionWatch.png', 'backendphotos/FusionWatch2.png'),
 (31, 'ApexTime', 22000, 'smartwatch', 'backendphotos/ApexTime.png', 'backendphotos/ApexTime2.png'),
-(32, 'VortexWatch', 28000, 'keyboards', 'backendphotos/VortexWatch.png', 'backendphotos/VortexWatch2.png'),
-(33, 'VortexWatch', 28000, 'keyboards', 'backendphotos/VortexWatch.png', 'backendphotos/VortexWatch2.png'),
-(34, 'VortexWatch', 28000, 'keyboards', 'backendphotos/VortexWatch.png', 'backendphotos/VortexWatch2.png'),
-(35, 'VortexWatch', 28000, 'keyboards', 'backendphotos/VortexWatch.png', 'backendphotos/VortexWatch2.png'),
-(36, 'VortexWatch', 28000, 'keyboards', 'backendphotos/VortexWatch.png', 'backendphotos/VortexWatch2.png'),
-(37, 'VortexWatch', 28000, 'keyboards', 'backendphotos/VortexWatch.png', 'backendphotos/VortexWatch2.png');
+(32, 'VortexWatch', 28000, 'smartwatch', 'backendphotos/VortexWatch.png', 'backendphotos/VortexWatch2.png'),
+(33, 'Ascendia', 28000, 'keyboards', 'backendphotos/Ascendia.png', 'backendphotos/Ascendia2.png'),
+(34, 'Veritas', 22500, 'keyboards', 'backendphotos/Veritas.png', 'backendphotos/Veritas2.png'),
+(35, 'Luminate', 17000, 'keyboards', 'backendphotos/Luminate.png', 'backendphotos/Luminate2.png'),
+(36, 'Elysium', 15000, 'keyboards', 'backendphotos/Elysium.png', 'backendphotos/Elysium2.png'),
+(37, 'Aetherius', 26500, 'keyboards', 'backendphotos/Aetherius.png', 'backendphotos/Aetherius2.png'),
+(38, 'Valtara', 24000, 'keyboards', 'backendphotos/Valtara.png', 'backendphotos/Valtara2.png'),
+(39, 'Celestia', 22000, 'keyboards', 'backendphotos/Celestia.png', 'backendphotos/Celestia2.png'),
+(40, 'Solace', 11000, 'keyboards', 'backendphotos/Solace.png', 'backendphotos/Solace2.png');
 -- (33, 'SonicBloom', 10000, 'headphones'),
 -- (34, 'EchoSound', 7000, 'headphones'),
 -- (35, 'AcousticSoul', 9000, 'headphones'),
@@ -181,5 +185,42 @@ CREATE TABLE visitors (
   timestamp TIMESTAMP DEFAULT NOW()
 );
 
+
+CREATE TABLE customer (
+  id INT PRIMARY KEY,
+  email TEXT,
+  first_name TEXT,
+  last_name TEXT, 
+  username VARCHAR(50),
+  password TEXT
+);
+
+INSERT INTO users( id, email , first_name , last_name ,  username , password)
+VALUES (1, 'henry123@gmail.com', 'Henry', 'Martinez', 'henry', '1234');
+INSERT INTO users( id, email , first_name , last_name ,  username , password)
+VALUES (2, 'henry3@gmail.com', 'nry', 'Martinez', 'henry', '1234');
+
+
+CREATE TABLE favorites (
+  user_id INT,
+  product_id INT,
+  PRIMARY KEY (user_id, product_id),
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (product_id) REFERENCES stock(id)
+);
+
+
+INSERT INTO favorites (user_id, product_id)
+VALUES (1, 23);
+INSERT INTO favorites (user_id, product_id)
+VALUES (1, 34);
+INSERT INTO favorites (user_id, product_id)
+VALUES (1, 12);
+
+SELECT * FROM users; 
+SELECT * FROM favorites WHERE user_id = 1;
+SELECT * FROM favorites WHERE user_id = 2;
+
 -- psql -U postgres -f ./sql/setup.sql
+
 

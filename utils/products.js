@@ -17,8 +17,18 @@ async function getProducts() {
     return products;
 };
 
+async function getProductsLimit20( offnum) {
+    const products = await db.any(`SELECT category,id ,name, priceincents, image_url_one, image_url_two FROM stock LIMIT 20 OFFSET ${offnum};`);
+    return products
+}
+
+async function getFavoriteProducts(product_id) {
+    const products = await db.any(`SELECT * FROM stock WHERE id = ${product_id}`, [true]);
+    return products;
+};
+
 async function getProductsLimitFour(name) {
-    const products = await db.any(`SELECT category, name, priceincents, image_url_one, image_url_two FROM stock WHERE category = '${name}' LIMIT 4;`);
+    const products = await db.any(`SELECT category, id, name, priceincents, image_url_one, image_url_two FROM stock WHERE category = '${name}' LIMIT 4;`);
     return products
 
 }
@@ -53,4 +63,4 @@ async function ordersCount() {
     const sales = (await db.any('SELECT total_amount FROM orders;')).reduce((prev, current) => ({ total_amount: prev.total_amount + current.total_amount }), { total_amount: 0 }).total_amount;
     return {orders, sales}
 }
-module.exports = { getProducts, getProductsLimitFour,addOrderToDataBase, ordersCount, db }
+module.exports = { getProducts, getProductsLimitFour,addOrderToDataBase, ordersCount, getFavs, addToFavs, getFavoriteProducts, getProductsLimit20, db }
