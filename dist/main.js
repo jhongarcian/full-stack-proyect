@@ -70,6 +70,7 @@ if(window.location.pathname === "/login"){
       const response = await doLogin(stringified)
       // With this location.href will take us to the correct page
       location.href = response.redirectTo;
+      console.log(`The current data is : ${response.current_data}`)
       console.log(`The user is logged in: ${response.isAuthenticated}`)
     };
   
@@ -111,7 +112,7 @@ if(window.location.pathname === "/login"){
       const data = new FormData(e.target);
       const stringified = stringifyFormData(data);
       const response = await createUser(stringified);
-      location.href = response.redirectTo
+      location.href = response.redirectTo;
     }
 
     renderForm()
@@ -128,8 +129,17 @@ if(window.location.pathname === "/login"){
         <input type="password" name="password" class="mt-1 px-3 py-2 border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"/>
       </label>
       
-      <input type="submit" value="Sign up" class=" mt-4 py-2 text-white rounded-md cursor-pointer bg-indigo-600 hover:bg-indigo-500 active:bg-violet-700 hover:outline-none  sm:text-sm"/>
+      <span for='prompt' class="pt-3 after:content-['*'] after:ml-0.5 after:text-red-500 sm:text-sm">Account type</span>
 
+      <label for='prompt' class=" sr-only after:content-['*'] after:ml-0.5 after:text-red-500 sm:text-sm" >Choose an account</label>
+
+      <select name="account" id="prompt" class="block py-2.5 px-0 w-20 text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer mx-auto text-center">
+        <option value='customer'>Customer</option>
+        <option value='admin'>Admin</option>
+      </select>
+      
+      <input type="submit" value="Sign up" class=" mt-4 py-2 text-white rounded-md cursor-pointer bg-indigo-600 hover:bg-indigo-500 active:bg-violet-700 hover:outline-none  sm:text-sm"/>
+      
       <a class="text-blue-600 pt-4 text-center sm:text-sm" href="/login">Already have an account?</a>
       `;
       accountContainer.innerHTML = html

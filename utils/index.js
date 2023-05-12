@@ -10,11 +10,19 @@ function setMainView(view){
 };
 
 function setNavs(currentHref, navs, isAuthenticated) {
+    const account_type = {
+        admin: 'admin',
+        customer: 'customer'
+    }
     const _navs = navs.map(nav => {
         nav.className = "";
         if(nav.href === currentHref){
             // nav.className = "active"
             nav.className = "active:bg-blue-600"
+        }
+        // get the information from the req object
+        if(nav.href === '/dashboard/user'){
+            nav.href += `/jhongarcian`
         }
         return nav
     }).filter(nav => {
@@ -38,14 +46,13 @@ async function getVisitorsCount() {
 }
 
 async function insertNewUserInDataBase(user) {
-    const {username, password} = user;
-    console.log(username, password)
-    await db.any(`INSERT INTO users(username, password) VALUES('${username}', '${password}');`)
+    const {username, password, account} = user;
+    await db.any(`INSERT INTO users(username, password, account_type) VALUES('${username}', '${password}', '${account}');`)
 }
 
 async function getPasswordFromDataBase(username) {
-    const user = await db.any(`SELECT password FROM users WHERE username = '${username}';`)
-    return user[0].password
+    const user = await db.any(`SELECT * FROM users WHERE username = '${username}';`)
+    return user[0]
 }
 
 module.exports = { setMainView, setNavs, generateId, getVisitorsCount, insertNewUserInDataBase, getPasswordFromDataBase };

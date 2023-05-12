@@ -204,6 +204,7 @@ CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   username VARCHAR(250) NOT NULL UNIQUE,
   password VARCHAR(250) NOT NULL,
+  account_type VARCHAR(250) NOT NULL,
   timestamp TIMESTAMP DEFAULT NOW()
 );
 

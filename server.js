@@ -152,7 +152,7 @@ server.get('/success', async (req, res) => {
 	}
 });
 
-server.get('/dashboard/user/:user', async (req, res) => {
+server.get('/dashboard/admin/:user', async (req, res) => {
     const user = req.params.user;
 	console.log(user)
 	console.log('in the dashboard')
@@ -290,20 +290,35 @@ server.get("/logout", (req, res) => {
 server.post("/login", async (req, res) => {
     const afterLogin = {
         isAuthenticated: false,
-        redirectTo: "/login"
+        redirectTo: "/login",
+		current_data: ''
     };
+
+	const account_types = {
+		admin: 'admin',
+		customer: 'customer'
+	}
 
     const { password, username } = req.body;
 
-	const password_from_database = await getPasswordFromDataBase(username);
+	const database_info = await getPasswordFromDataBase(username);
+	console.log(database_info)
 
-	const isValid = await bycrypt.compare(password, password_from_database);
+	const isValid = await bycrypt.compare(password, database_info.password);
+	
+	const account_type = database_info.account_type;
 
-    if(isValid){
+    if(isValid && account_type === account_types.admin){
         req.session.userId = username;
         afterLogin.isAuthenticated = true;
-        afterLogin.redirectTo = `/dashboard/user/${username}`;
+        afterLogin.redirectTo = `/dashboard/admin/${username}`;
     }
+	if(isValid && account_type === account_types.customer){
+		req.session.userId = username;
+		afterLogin.isAuthenticated = false
+		afterLogin.redirectTo = `/account/user/${username}`
+		afterLogin.current_data = "is an user"
+	}
     res.json(afterLogin)
 });
 
@@ -326,24 +341,24 @@ server.get('/sign-up', (req, res) => {
 })
 
 server.post('/sign-up', async (req, res) => {
-	const { password, username } = req.body;
+	const { password, username, account } = req.body;
 
 	const salt = await bycrypt.genSalt(10);
 
 	const hashedPassword = await bycrypt.hash(password, salt);
-	console.log('Password Hashed ' + hashedPassword);
 	
 	try {
 		const newUser = {
-			username: username,
-			password: hashedPassword
+			username,
+			password: hashedPassword,
+			account
 		};
 
 		await insertNewUserInDataBase(newUser);
 
 		res.json({ 
 			message: 'User created successfully!',
-			redirectTo: '/dashboard/id'
+			redirectTo: '/login'
 		});
 
 	} catch (error) {
