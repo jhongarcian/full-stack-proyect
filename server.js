@@ -1,7 +1,7 @@
 // Utils functions 
 require('dotenv').config();
 const { setMainView, setNavs, generateId, getVisitorsCount } = require('./utils/index.js')
-const { getProducts, getProductsLimitFour, addOrderToDataBase, ordersCount, db } = require('./utils/products.js')
+const { getProducts, getProductsLimitFour, addOrderToDataBase, ordersCount, db, getFavs,addToFavs,getFavoriteProducts,getProductsLimit20,} = require('./utils/products.js')
 const { categorySection, titleSection, heroSection } = require('./utils/landingPage.js')
 const { reformatSession } = require('./utils/stripe.js');
 const { success } = require('./utils/success')
