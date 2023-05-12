@@ -14,6 +14,7 @@ CREATE TABLE stock (
   PRIMARY KEY (id)
 );
 
+
 INSERT INTO stock (id, name, priceincents, category, favorites, image_url_one, image_url_two)
 VALUES
 (1, 'Zenith', 74500, 'smartphone', 'backendphotos/Zenith.png', 'backendphotos/ZenithTime2.png'),
@@ -184,5 +185,42 @@ CREATE TABLE visitors (
   timestamp TIMESTAMP DEFAULT NOW()
 );
 
+
+CREATE TABLE customer (
+  id INT PRIMARY KEY,
+  email TEXT,
+  first_name TEXT,
+  last_name TEXT, 
+  username VARCHAR(50),
+  password TEXT
+);
+
+INSERT INTO users( id, email , first_name , last_name ,  username , password)
+VALUES (1, 'henry123@gmail.com', 'Henry', 'Martinez', 'henry', '1234');
+INSERT INTO users( id, email , first_name , last_name ,  username , password)
+VALUES (2, 'henry3@gmail.com', 'nry', 'Martinez', 'henry', '1234');
+
+
+CREATE TABLE favorites (
+  user_id INT,
+  product_id INT,
+  PRIMARY KEY (user_id, product_id),
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (product_id) REFERENCES stock(id)
+);
+
+
+INSERT INTO favorites (user_id, product_id)
+VALUES (1, 23);
+INSERT INTO favorites (user_id, product_id)
+VALUES (1, 34);
+INSERT INTO favorites (user_id, product_id)
+VALUES (1, 12);
+
+SELECT * FROM users; 
+SELECT * FROM favorites WHERE user_id = 1;
+SELECT * FROM favorites WHERE user_id = 2;
+
 -- psql -U postgres -f ./sql/setup.sql
+
 

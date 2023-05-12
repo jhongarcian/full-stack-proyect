@@ -1,39 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <!-- <div class="flex bg-white"> ${products.map(e => {
-        return (`<div class="flex mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-                      <button id=${e.id}>
-                        <p class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">${e.name}</p>
-                        <p>${e.category}</p>
-                        <p>${e.priceincents}</p>
-                      </button>
-                </div>`)})} 
-    </div> -->
-    
 
     <div class="bg-white">
-       <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-         <h2 class="sr-only">Products</h2>
-         <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-            ${products.map(e => {
-             return (`
-             <a data-id="${e.id}" href= "products/${e.id}" class="group">
-             <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-               <img src= "${e.image_url_one}" alt=""> 
-             </div>
-             <h3 class="mt-4 text-sm text-gray-700">${e.name}</h3>
-             <p class="mt-1 text-lg font-medium text-gray-900">$ ${e.priceincents /100}</p>
-           </a>`)}).join('')}
-         </div>
-       </div>
-     </div> 
-
-  </body>
-</html>
+      <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+        <h2 class="sr-only">Products</h2>
+        <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+           ${products.map(e => {
+            return (`
+            <a data-id="${e.id}" href= "products/${e.id}" class="group">
+            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+              <img src= "/${e.image_url_one}" alt=""> 
+            </div>
+            <h3 class="mt-4 text-sm text-gray-700">${e.name}</h3>
+            <p class="mt-1 text-lg font-medium text-gray-900">$ ${e.priceincents /100}</p>
+          </a>`)}).join('')}
+        </div>
+      </div>
+      <a href="/products/page/20" id="nextPage">next page</a>
+    </div> 

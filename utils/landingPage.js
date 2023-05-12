@@ -19,7 +19,7 @@ function categorySection(product, position) {
         </div>
         <div class="flex-1 flex flex-wrap">
             ${product.map(item => `
-            <a href="#" class="w-1/2 h-1/2 flex flex-col gap-4 p-2">
+            <a href = "/products/${item.id}" class="w-1/2 h-1/2 flex flex-col gap-4 p-2">
             <img
                 class=""
                 src="${item.image_url_one}"
