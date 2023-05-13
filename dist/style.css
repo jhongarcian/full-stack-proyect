@@ -231,6 +231,22 @@ body.michaeljones {
   height: 100vh;
 }
 
+.page-buttons{
+  display: flex;
+  padding: 2%;
+  justify-content: center;
+  gap: 20px;
+  /* justify-content: space-evenly; */
+}
+
+.pageturn{
+  background-color:#333333;
+  color: #ffffff;
+  min-height: 20px;
+  min-width: 90px;
+  text-align: center;
+}
+
 .single-product {
   height: 100vh;
   display: flex;
