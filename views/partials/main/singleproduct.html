@@ -1,8 +1,26 @@
-<div>
-  <img src="/${product.image_url_one}" alt="">
-</div>
-<div>${product.name}</div>
-<div>$${product.priceincents /100} </div>
-<button class="bg-yellow-300">Add To Favorites</button>
+<div class="single-product">
+  <div class="product-container">
+    <div>
+      <div class="photo-container">
+        <div><img id="img-1" src="/${product.image_url_one}" alt="" /></div>
+        <div><img id="img-2" src="/${product.image_url_two}" alt="" /></div>
+      </div>
+      <div class="product-info pl-14">
+        <div class="name">${product.name}</div>
+        <div class="category">${product.category}</div>
+        <div class="price">
+          <div>$${product.priceincents /100}</div>
+        </div>
+      </div>
+    </div>
 
-    
+    <div class="flex justify-center">
+      <div class="description">Features:${product.description}</div>
+    </div>
+
+    <div class="btn-container">
+      <button class="addfav rounded-md">Add To Cart</button>
+      <button class="addfav rounded-md">Add To Favorites</button>
+    </div>
+  </div>
+</div>
