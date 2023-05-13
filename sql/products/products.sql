@@ -17,14 +17,14 @@ CREATE TABLE stock (
 
 INSERT INTO stock (id, name, priceincents, category, image_url_one, image_url_two, description)
 VALUES
-(1, 'Zenith', 74500, 'smartphone', 'backendphotos/Zenith.png', 'backendphotos/ZenithTime2.png', 'Experience the pinnacle of technology with the Zenith smartphones. With a sleek design and advanced features, it''s the phone of the future.'),
-(2, 'NovaTech', 98750, 'smartphone', 'backendphotos/NovaTech.png', 'backendphotos/Nexus2.png', 'Unleash the power of technology with the NovaTech smartphone. With a fast processor and stunning display, it''s the perfect device for tech enthusiasts.'),
+(1, 'Zenith', 74500, 'smartphone', 'backendphotos/Zenith.png', 'backendphotos/Zenith2.png', 'Experience the pinnacle of technology with the Zenith smartphones. With a sleek design and advanced features, it''s the phone of the future.'),
+(2, 'NovaTech', 98750, 'smartphone', 'backendphotos/NovaTech.png', 'backendphotos/NovaTech2.png', 'Unleash the power of technology with the NovaTech smartphone. With a fast processor and stunning display, it''s the perfect device for tech enthusiasts.'),
 (3, 'Hyperion', 61400, 'smartphone', 'backendphotos/Hyperion.png', 'backendphotos/Hyperion.png', 'Get ready to be impressed with the Hyperion smartphone. With a high-quality camera and impressive performance, it''s perfect for content creators.'),
 (4, 'Phoenix', 81600, 'smartphone', 'backendphotos/Phoenix.png', 'backendphotos/Phoenix2.png', 'Rise from the ashes with the Phoenix smartphone. With a long-lasting battery and advanced features, it''s the perfect device for on-the-go lifestyles.'),
 (5, 'Vortex', 59100, 'smartphone', 'backendphotos/Vortex.png', 'backendphotos/Vortex2.png', 'Get swept away by the Vortex smartphone. With a powerful processor and cutting-edge features, it''s the perfect device for multitaskers.'),
 (6, 'Aurora', 70400, 'smartphone', 'backendphotos/Aurora.png', 'backendphotos/Aurora2.png', 'Illuminate your life with the Aurora smartphone. With a stunning display and advanced camera, it''s perfect for capturing and sharing life''s moments.'),
 (7, 'ApexTech', 90500, 'smartphone', 'backendphotos/ApexTech.png', 'backendphotos/ApexTech2.png', 'Reach the peak of performance with the ApexTech smartphone. With a lightning-fast processor and impressive features, it''s perfect for power users.'),
-(8, 'Nebula', 62300, 'smartphone', 'backendphotos/Nebula.png', 'backendphotos/Nexus2.png', 'Enter a world of possibilities with the Nebula smartphone. With a sleek design and advanced features, it''s perfect for people on the go.'),
+(8, 'Nebula', 62300, 'smartphone', 'backendphotos/Nebula.png', 'backendphotos/Nebula2.png', 'Enter a world of possibilities with the Nebula smartphone. With a sleek design and advanced features, it''s perfect for people on the go.'),
 (9, 'Velocity', 75000, 'laptop', 'backendphotos/Velocity.png', 'backendphotos/Velocity2.png', 'Take your work to new heights with the Velocity laptop. With lightning-fast performance and a sleek design, it''s the perfect device for professionals.'),
 (10, 'Quantum', 82000, 'laptop', 'backendphotos/Quantum.png', 'backendphotos/Quantum2.png', 'Experience the power of the Quantum laptop. With advanced features and a stunning display, it''s the perfect device for gamers and creatives.'),
 (11, 'Hypernova', 96000, 'laptop', 'backendphotos/Hypernova.png', 'backendphotos/Hypernova2.png', 'Unleash your creativity with the Hypernova laptop. With a high-quality display and advanced features, it''s perfect for artists and designers.'),
