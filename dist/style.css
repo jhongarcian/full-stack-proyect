@@ -315,46 +315,48 @@ body.michaeljones {
 }
 
 
-@media (max-width: 980px) {
+@media (max-width: 750px) {
   #img-1 {
     width: 265px;
     height: 210px;
+    padding: 1%;
+    
   }
   
 }
 
-@media (max-width: 980px) {
+@media (max-width: 750px) {
   .photo-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    row-gap: 10%;
+    
   }
   
 }
 
-@media (max-width: 980px) {
+@media (max-width: 750px) {
   .name {
     font-size:medium;
     text-align: center;
   }
 }
 
-@media (max-width: 980px) {
+@media (max-width: 750px) {
   .price {
     font-size:medium;
     text-align: center;
   }
 }
 
-@media (max-width: 980px) {
+@media (max-width: 750px) {
   .category{
     font-size:medium;
     text-align: center;
   } 
 }
 
-@media (max-width: 980px) {
+@media (max-width: 750px) {
   .btn-container {
     display: flex;
     flex-direction: column;
@@ -365,7 +367,7 @@ body.michaeljones {
 }
 
 
-@media (max-width: 980px) {
+@media (max-width: 750px) {
   .product-info {
     display: flex;
     gap: 32px;
