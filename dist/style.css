@@ -229,3 +229,76 @@ body.michaeljones {
 
 .cart {
   height: 100vh;
+}
+
+.single-product {
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 1%;
+}
+
+.product-info {
+  display: flex;
+  gap: 20px;
+
+}
+
+.price{
+  display: flex;
+  align-items: end;
+  font-size: xx-large;
+  text-align: center;
+}
+
+.product-container{
+  flex-direction: row;
+}
+
+.photo-container{
+  display: flex;
+  justify-content: center;
+  gap: 1%;
+}
+
+#img-1 {
+  width: 465px;
+  height: 410px;
+}
+
+#img-2 {
+  width: 465px;
+  height: 410px;
+}
+
+.category{
+  display: flex;
+  align-items: end;
+  font-size: xx-large;
+  text-align: center;
+}
+
+.name {
+  font-size: xx-large;
+  text-align: center;
+}
+
+.description {
+  inline-size: 90%;
+}
+
+.addfav{
+  align-content: center;
+  background-color:#333333;
+  color: #ffffff;
+  min-height: 40px;
+  min-width: 150px;
+}
+
+.btn-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 3px;
+}
