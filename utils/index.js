@@ -34,7 +34,6 @@ function generateId() {
 async function getVisitorsCount() {
     const visitors = (await db.any('SELECT COUNT(*) FROM visitors;')).map(item => item.count)[0];
     const numberCount = visitors * 1
-    console.log(numberCount)
     return numberCount
 }
 

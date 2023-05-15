@@ -176,7 +176,20 @@ CREATE TABLE order_items (
 SELECT o.*, i.*
 FROM orders o
 JOIN order_items i ON o.id = i.order_id
-WHERE o.id = 1;
+WHERE o.id = '15e4d7b397';
+
+-- Retrives all the sales 
+
+SELECT o.*, i.*
+FROM orders o
+JOIN order_items i ON o.id = i.order_id;
+
+-- Data from 1 week
+
+SELECT *
+FROM orders
+WHERE purchase_date BETWEEN CURRENT_DATE - INTERVAL '7 days' AND CURRENT_DATE;
+
 
 -- Table to track visitors 
 

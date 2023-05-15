@@ -1,5 +1,4 @@
 const pgp = require('pg-promise')({ capSQL: true });
-const pgp = require('pg-promise')({ capSQL: true });
 require('dotenv').config();
 
 const cn = {
@@ -75,4 +74,13 @@ async function addToFavs(user_id, product_id) {
     return newFav
 }
 
-module.exports = { getProducts, getProductsLimitFour,addOrderToDataBase, ordersCount, getFavs, addToFavs, getFavoriteProducts, getProductsLimit20, db }
+async function orderInDataBase(id) {
+    const order = await db.any(`SELECT id FROM orders WHERE id = '${id}'`)
+    if(order.length === 0){
+        return false
+    }else {
+        return order
+    }
+}
+module.exports = { getProducts, getProductsLimitFour,addOrderToDataBase, ordersCount, db, orderInDataBase, getFavs, addToFavs, getFavoriteProducts, getProductsLimit20, }
+

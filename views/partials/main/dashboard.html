@@ -1,162 +1,63 @@
-<section class="h-full w-full flex-grow flex relative">
-  <div
-    class="h-full ml-3 mt-3 mb-3 w-20 bg-neutral-800 rounded-2xl border-transparent flex flex-col items-start py-4 justify-between hover:w-56 ease-in-out duration-700 cursor-pointer group static"
-  >
-    <ul
-      class="h-full w-full flex flex-col gap-4 text-neutral-50 mb-auto flex-grow p-6 items-center"
-    >
-      <li class="w-full">
-        <a class="overflow-hidden flex items-center gap-2" href="#">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="{1.5}"
-            stroke="currentColor"
-            className="w-8 h-8"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-            />
-          </svg>
-          <div class="hidden group-hover:inline-flex ease-in-out duration-1000">
-            Dashboard
-          </div>
-        </a>
-      </li>
-      <li class="w-full h-8">
-        <a class="overflow-hidden flex items-center gap-2" href="#">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-8 h-8"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <div class="hidden group-hover:inline-flex ease-in-out duration-1000">
-            Orders
-          </div>
-        </a>
-      </li>
-      <li class="w-full h-8">
-        <a class="overflow-hidden flex items-center gap-2" href="#">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-8 h-8"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z"
-            />
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z"
-            />
-          </svg>
-
-          <div class="hidden group-hover:inline-flex ease-in-out duration-1000">
-            Statistics
-          </div>
-        </a>
-      </li>
-      <li class="w-full h-8">
-        <a class="overflow-hidden flex items-center gap-2" href="#">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-8 h-8"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-
-          <div class="hidden group-hover:inline-flex ease-in-out duration-1000">
-            Products
-          </div>
-        </a>
-      </li>
-    </ul>
-    <ul
-      class="h-full w-full flex flex-col-reverse gap-4 text-neutral-50 mb-auto flex-grow p-6 items-center"
-    >
-      <li class="w-full">
-        <a class="overflow-hidden flex items-center gap-2" href="#">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="{1.5}"
-            stroke="currentColor"
-            className="w-8 h-8"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
-            />
-          </svg>
-
-          <div class="hidden group-hover:inline-flex ease-in-out duration-1000">
-            Log out
-          </div>
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div class="px-14 flex-grow">
-    <h1 class="tracking-normal text-2xl pb-8">Analytics Overview</h1>
-    <div class="md:flex justify-around gap-20 hidden">
-      <div
-        class="flex w-60 h-auto flex-col bg-orange-200 rounded-2xl gap-2 items-center justify-center py-6 px-8"
-      >
-        <span class="text-black text-xl">${view_count}</span>
-        <span class="text-black text-sm">Website Visits</span>
-      </div>
-      <div
-        class="flex w-60 h-auto flex-col bg-green-200 rounded-2xl gap-2 items-center justify-center py-6 px-8"
-      >
-        <span class="text-black text-xl">$ ${total_sales / 100}</span>
-        <span class="text-black text-sm">Sales</span>
-      </div>
-      <div
-        class="flex w-60 h-auto flex-col bg-blue-200 rounded-2xl gap-2 items-center justify-center py-6 px-8"
-      >
-        <span class="text-black text-xl">${number_of_orders}</span>
-        <span class="text-black text-sm">Orders Submitted</span>
-      </div>
-      <div
-        class="flex w-60 h-auto flex-col bg-gray-200 rounded-2xl gap-2 items-center justify-center py-6 px-8"
-      >
-        <span class="text-black text-xl"></span>
-        <span class="text-black text-sm">Profit Taken</span>
-      </div>
+<section class="h-fit w-11/12 mx-auto px-6">
+  <h1 class="tracking-normal font-semibold text-6xl pb-8 pt-20">Welcome Back!</h1>
+  <h2 class="tracking-normal text-3xl pb-4">John Garcia</h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="bg-orange-200 rounded-2xl p-6">
+      <span class="text-black text-lg">${view_count}</span>
+      <p class="text-black text-sm mt-2">Website Visits</p>
     </div>
-    <article class="w-1/2 h-1/2 my-8">
-      <canvas
-        class="w-full h-full rounded-2xl border-stone-600 border-solid border-2"
-        id="week-sales"
-      ></canvas>
-    </article>
+    <div class="bg-green-200 rounded-2xl p-6">
+      <span class="text-black text-lg">$ ${total_sales / 100}</span>
+      <p class="text-black text-sm mt-2">Sales</p>
+    </div>
+    <div class="bg-blue-200 rounded-2xl p-6">
+      <span class="text-black text-lg">${number_of_orders}</span>
+      <p class="text-black text-sm mt-2">Orders Submitted</p>
+    </div>
   </div>
+  <article class="flex flex-col md:flex-row w-full mx-auto my-8">
+    <div class="flex-1 rounded-2xl border-stone-200 border-solid border-2 mb-4 md:mb-0 md:mr-4">
+      <canvas class="w-full" id="week-sales"></canvas>
+    </div>
+    <div class="md:w-1/5 rounded-2xl border-stone-200 border-solid border-2 p-6 flex flex-col">
+      <h2 class="text-lg tracking-normal font-semibold mb-4">Top 5 Recent Sales</h2>
+      <ul class="flex flex-col gap-2">
+        <li class="mb-2 flex justify-between items-center gap-1">
+          <div class="flex flex-col">
+            <span class="text-black font-semibold">Carolina</span>
+            <span class="text-black">11/22/2023</span>
+          </div>
+          <span>$200</span>
+        </li>
+        <li class="mb-2 flex justify-between items-center gap-1">
+          <div class="flex flex-col">
+            <span class="text-black font-semibold">Carolina</span>
+            <span class="text-black">11/22/2023</span>
+          </div>
+          <span>$200</span>
+        </li>
+        <li class="mb-2 flex justify-between items-center gap-1">
+          <div class="flex flex-col">
+            <span class="text-black font-semibold">Carolina</span>
+            <span class="text-black">11/22/2023</span>
+          </div>
+          <span>$200</span>
+        </li>
+        <li class="mb-2 flex justify-between items-center gap-1">
+          <div class="flex flex-col">
+            <span class="text-black font-semibold">Carolina</span>
+            <span class="text-black">11/22/2023</span>
+          </div>
+          <span>$200</span>
+        </li>
+        <li class="mb-2 flex justify-between items-center gap-1">
+          <div class="flex flex-col">
+            <span class="text-black font-semibold">Carolina</span>
+            <span class="text-black">11/22/2023</span>
+          </div>
+          <span>$200</span>
+        </li>
+      </ul>
+    </div>
+  </article>  
 </section>

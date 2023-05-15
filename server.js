@@ -1,7 +1,8 @@
 // Utils functions 
 require('dotenv').config();
 const { setMainView, setNavs, generateId, getVisitorsCount } = require('./utils/index.js')
-const { getProducts, getProductsLimitFour, addOrderToDataBase, ordersCount, db, getFavs,addToFavs,getFavoriteProducts,getProductsLimit20,} = require('./utils/products.js')
+const { getProducts, getProductsLimitFour, addOrderToDataBase, ordersCount, db, orderInDataBase, getFavs,addToFavs,getFavoriteProducts,getProductsLimit20, } = require('./utils/products.js')
+
 const { categorySection, titleSection, heroSection } = require('./utils/landingPage.js')
 const { reformatSession } = require('./utils/stripe.js');
 const { success } = require('./utils/success')
@@ -13,6 +14,7 @@ const express = require('express');
 const es6Renderer = require('express-es6-template-engine');
 const cookieParser = require("cookie-parser");
 const sessions = require("express-session");
+const { secureHeapUsed } = require('crypto');
 
 const PORT = process.env.PORT || 5050;
 const server = express();
@@ -119,8 +121,8 @@ server.get('/success', async (req, res) => {
 	const queryString = parsedUrl.query;
 	const queryParams = querystring.parse(queryString)
 	const sessionId = queryParams.session_id;
-
-
+	const order = await orderInDataBase(sessionId)
+	
 	try {
 		const session = await stripe.checkout.sessions.retrieve(sessionId);
 		const items = await stripe.checkout.sessions.listLineItems(
@@ -128,8 +130,12 @@ server.get('/success', async (req, res) => {
 			{limit: 10 }
 		)
 		const sessionResult = reformatSession(session, items);
-		const randomIdForDataBase = generateId()
-		addOrderToDataBase(sessionResult, randomIdForDataBase)
+		if(order){
+			res.redirect('/')
+			return
+		}else {
+			addOrderToDataBase(sessionResult, sessionId)
+		}
 
 		res.render('index', {
 			locals: {
@@ -145,6 +151,7 @@ server.get('/success', async (req, res) => {
 });
 
 server.get('/dashboard/id', async (req, res) => {
+	console.log('in the dashboard')
 	const { orders, sales } = await ordersCount()
 	res.render('index', {
 		locals: { 
@@ -298,6 +305,15 @@ server.get("/login", (req, res) => {
         partials: setMainView("/login")
     })
 });
+
+server.get('/sign-up', (req, res) => {
+	res.render('index', {
+		locals: {
+			navs: setNavs(req.url, navs, !!req.session.userId)
+		},
+		partials: setMainView('sing-up')
+	})
+})
 
 // Server PORT listening.
 server.listen(PORT, () => {

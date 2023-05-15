@@ -1,6 +1,14 @@
+function stringifyFormData(fd) {
+  const data = {};
+  for (let key of fd.keys()) {
+    data[key] = fd.get(key);
+  }
+  return JSON.stringify(data, null, 4);
+}
+
 const button_checkout = document.querySelector("[button]")
 if(button_checkout) {
-    button.addEventListener("click", async () => {
+    button_checkout.addEventListener("click", async () => {
         const options = {
             method: 'POST',
             headers: {
@@ -55,14 +63,6 @@ if(window.location.pathname === "/login"){
     const form = document.getElementById('form');
     const credsContainer = form.querySelector("#credentials-container")
   
-    function stringifyFormData(fd) {
-      const data = {};
-      for (let key of fd.keys()) {
-        data[key] = fd.get(key);
-      }
-      return JSON.stringify(data, null, 4);
-    }
-  
     const handleSubmit = async (e) => {
       e.preventDefault();
       const data = new FormData(e.target);
@@ -80,6 +80,7 @@ if(window.location.pathname === "/login"){
       const html = `
       <input type="text" name="username" placeholder="Username" />
       <input type="password" name="password" placeholder="Password" />
+      <a class="text-blue-600 pt-4 text-center" href="/sign-up">Register now!</a>
       <input class="form-btn" type="submit" value="Login" />
       `;
       credsContainer.innerHTML = html
@@ -97,5 +98,32 @@ if(window.location.pathname === "/login"){
       const response = await fetch("/login", options);
       const data = await response.json()
       return data
+    }
+  }
+
+
+  if(window.location.pathname === '/sign-up') {
+    const form = document.getElementById('form');
+    const accountContainer = form.querySelector("#create-account-form")
+    
+
+    renderForm()
+
+    function renderForm() {
+      const html = `
+      <label class="flex flex-col items-start">
+        <span class="after:content-['*'] after:ml-0.5 after:text-red-500 sm:text-sm" >Username</span>
+        <input type="text" name="username" class="mt-1 px-3 py-2 border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"/>
+      </label>
+      <label class="flex flex-col items-start">
+        <span class="after:content-['*'] after:ml-0.5 after:text-red-500 sm:text-sm" >Password</span>
+        <input type="password" name="password" class="mt-1 px-3 py-2 border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"/>
+      </label>
+      
+      <input type="submit" value="Sign in" class=" mt-4 py-2 text-white rounded-md cursor-pointer bg-indigo-600 hover:bg-indigo-500 active:bg-violet-700 hover:outline-none  sm:text-sm"/>
+
+      <a class="text-blue-600 pt-4 text-center sm:text-sm" href="/login">Already have an account?</a>
+      `;
+      accountContainer.innerHTML = html
     }
   }
