@@ -5,7 +5,6 @@ const { getProducts, getProductsLimitFour, addOrderToDataBase, ordersCount, db, 
 const { categorySection, titleSection, heroSection } = require('./utils/landingPage.js')
 const { reformatSession } = require('./utils/stripe.js');
 const { success } = require('./utils/success')
-const pgp = require('pg-promise')();
 const navs = require('./data/navs.json')
 const querystring = require('querystring')
 const url = require('url')
@@ -84,7 +83,7 @@ server.post('/create-checkout-session', async (req, res) => {
 });
 
 // Homepage endpoint
-server.get('/', countViews,async (req, res) => {
+server.get('/', async (req, res) => {
 
 	const products = await getProducts();
 	const smartphones = await getProductsLimitFour('smartphone');
@@ -144,13 +143,6 @@ server.get('/success', async (req, res) => {
 		console.error(error)
 	}
 });
-
-let viewCount = 0;
-
-function countViews(req, res, next) {
-  viewCount++;
-  next();
-}
 
 server.get('/dashboard/id', async (req, res) => {
 	const { orders, sales } = await ordersCount()
@@ -293,7 +285,7 @@ server.post("/login", (req, res) => {
     if(password === validCreds.password && username === validCreds.username){
         req.session.userId = username;
         afterLogin.isAuthenticated = true;
-        afterLogin.redirectTo = "/profile";
+        afterLogin.redirectTo = "/dashboard/id";
     }
     res.json(afterLogin)
 });
@@ -303,7 +295,7 @@ server.get("/login", (req, res) => {
         locals: {
 			navs: setNavs(req.url, navs, !!req.session.userId)
 		},
-        partials: setMainView("login")
+        partials: setMainView("/login")
     })
 });
 
