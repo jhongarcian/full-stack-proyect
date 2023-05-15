@@ -81,7 +81,7 @@ if(window.location.pathname === "/login"){
       <input type="text" name="username" placeholder="Username" />
       <input type="password" name="password" placeholder="Password" />
       <a class="text-blue-600 pt-4 text-center" href="/sign-up">Register now!</a>
-      <input class="form-btn" type="submit" value="Login" />
+      <input type="submit" value="Login" class=" mt-1 py-2 text-white rounded-md cursor-pointer bg-indigo-600 hover:bg-indigo-500 active:bg-violet-700 hover:outline-none  sm:text-sm"/>
       `;
       credsContainer.innerHTML = html
     }
