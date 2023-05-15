@@ -63,7 +63,7 @@ if(window.location.pathname === "/login"){
     const form = document.getElementById('form');
     const credsContainer = form.querySelector("#credentials-container")
   
-    const handleSubmit = async (e) => {
+    const handleSignupFormSubmit = async (e) => {
       e.preventDefault();
       const data = new FormData(e.target);
       const stringified = stringifyFormData(data);
@@ -75,7 +75,7 @@ if(window.location.pathname === "/login"){
     };
   
     renderForm()
-    form.addEventListener('submit', handleSubmit);
+    form.addEventListener('submit', handleSignupFormSubmit);
   
     function renderForm() {
       const html = `
@@ -142,7 +142,7 @@ if(window.location.pathname === "/login"){
       
       <a class="text-blue-600 pt-4 text-center sm:text-sm" href="/login">Already have an account?</a>
       `;
-      accountContainer.innerHTML = html
+      accountContainer.innerHTML = html;
     }
 
     async function createUser(body) {
@@ -160,27 +160,85 @@ if(window.location.pathname === "/login"){
   }
 
 
-const isProductsContainer = document.querySelector('#product-container');
 
-if(isProductsContainer) {
+if(window.location.pathname.includes('/add-products/')) {
+  const productContainer = document.querySelector('#product-container');
   
-  const handleSubmit = async (e) => {
+  async function handleClick(e) {
     e.preventDefault();
-    if(e.target.matches('#form-product')){
-      const data = new FormData(e.target);
+    if(e.target.matches('[add-product]')){
+      const html = createAddProductContainer();
+      productContainer.innerHTML = html;
+      return
+    };
+    if(e.target.matches('[overview]')){
+      const data = await retriveAllProducts()
+      const html = createOverviewTable(data)
+      productContainer.innerHTML = html;
+    }
+
+  };
+
+  document.addEventListener('click', handleClick)
+  
+  async function handleForm(e) {
+    const form = document.getElementById('form-product')  
+    const add_productContainer = document.querySelector('[add-product-container]')
+    if(e.target.matches('[create-product-btn]')){
+      e.preventDefault();
+      const data = new FormData(form);
       const stringify = stringifyFormData(data);
       const response = await createProduct(stringify);
-      console.log(response.message);
-      renderContainer();
+      if(add_productContainer){
+        add_productContainer.remove();
+        const html = successProduct(response);
+        productContainer.innerHTML = html;
+      }
     }
-  }
-  
-  renderContainer();
-  document.addEventListener('submit', handleSubmit);
+  };
 
-  function renderContainer(){
+  document.addEventListener('click', handleForm);    
+
+  function successProduct(response) {
+    console.log(response)
     const html = `
-      <article class='flex-1 flex px-6 w-full lg:max-w-2xl'>
+      <div class="flex items-center justify-center w-full px-6 flex-1">
+        <div class=" flex flex-col gap-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+          <span class="font-bold">${response.message}</span>
+          <div class="my-2">
+            <span class="font-bold">Name:</span>
+            <span class="ml-1">${response.product_created.name}</span>
+          </div>
+          <div class="my-2">
+            <span class="font-bold">Category:</span>
+            <span class="ml-1">${response.product_created.category}</span>
+          </div>
+          <div class="my-2">
+            <span class="font-bold">URL:</span>
+            <span class="ml-1">${response.product_created.url || 'www.text.com'}</span>
+          </div>
+          <div class="my-2">
+            <span class="font-bold">Price:</span>
+            <span class="ml-1">$ ${response.product_created.price}</span>
+          </div>
+          <div class="my-2">
+            <span class="font-bold">Sale:</span>
+            <span class="ml-1">$ ${response.product_created.sale || 0}</span>
+          </div>
+          <div class="my-2">
+            <span class="font-bold">Description:</span>
+            <span class="ml-1">${response.product_created.description}</span>
+          </div>
+        </div>
+      </div>
+
+    `
+    return html
+  }
+
+  function createAddProductContainer(){
+    const html = `
+      <article add-product-container class='flex-1 flex px-6 w-full lg:max-w-2xl'>
         <form id="form-product" class="flex - flex-col gap-2 w-full">
           <label required>
             <span class="after:content-['*'] after:ml-0.5 after:text-red-500 sm:text-sm">Product Name</span>
@@ -193,7 +251,7 @@ if(isProductsContainer) {
           <label required>
               <span class="after:content-['*'] after:ml-0.5 after:text-red-500 sm:text-sm">Url</span>
               <input type="url" name='url' placeholder="www.image.com" class="px-3 py-2 border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"/>
-            </label>
+          </label>
           <div class='flex gap-4 justify-between'>
             <label required class=" w-1/2">
               <span class="after:content-['*'] after:ml-0.5 after:text-red-500 sm:text-sm">Price</span>
@@ -204,13 +262,56 @@ if(isProductsContainer) {
               <input type="number" name='sale' placeholder="$1500" class="after:content-['$'] after:ml-[-10px] after:text-black  px-3 py-2 border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"/>
             </label>
           </div>
+          <label required>
+              <span class="after:content-['*'] after:ml-0.5 after:text-red-500 sm:text-sm">Description</span>
+              <input type="text" name='description' placeholder="Product description" class="px-3 py-2 border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"/>
+          </label>
 
-          <input type="submit" value="Create Product" class=" mt-4 py-2 text-white rounded-md cursor-pointer bg-indigo-600 hover:bg-indigo-500 active:bg-violet-700 hover:outline-none  sm:text-sm"/>
+          <input create-product-btn type="submit" value="Create Product" class=" mt-4 py-2 text-white rounded-md cursor-pointer bg-indigo-600 hover:bg-indigo-500 active:bg-violet-700 hover:outline-none  sm:text-sm"/>
         </form> 
       </article>
     `
-    isProductsContainer.innerHTML = html;
+    return html;
   };
+
+  function createOverviewTable(products) {
+    console.log(products)
+    const html = `
+    <div class="flex flex-col overflow-x-auto flex-1 w-full ">
+      <div class="w-full">
+        <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-sm font-light text-center">
+              <thead class="border-b font-medium dark:border-neutral-500">
+                <tr>
+                  <th scope="col" class="px-3 py-4">#</th>
+                  <th scope="col" class="px-3 py-4">Name</th>
+                  <th scope="col" class="px-3 py-4">Price</th>
+                  <th scope="col" class="px-3 py-4">Category</th>
+                  <th scope="col" class="px-3 py-4">Url</th>
+                  <th scope="col" class="px-3 py-4">Url Two</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${products.map(item => `
+                  <tr class="border-b dark:border-neutral-500">
+                    <td class="whitespace-nowrap px-3 py-4 font-medium">${item.id}</td>
+                    <td class="whitespace-nowrap px-3 py-4">${item.name}</td>
+                    <td class="whitespace-nowrap px-3 py-4">$ ${item.priceincents / 100}</td>
+                    <td class="whitespace-nowrap px-3 py-4">${item.category}</td>
+                    <td class="whitespace-nowrap px-3 py-4">${item.image_url_one}</td>
+                    <td class="whitespace-nowrap px-3 py-4">${item.image_url_two}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    `
+  return html;
+  }
 
   async function createProduct(body) {
     const options = {
@@ -225,6 +326,21 @@ if(isProductsContainer) {
       if(response.ok){
         const data = await response.json();
         return data;
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async function retriveAllProducts() {
+    const options = {
+      method: 'GET'
+    }
+    try {
+      const response = await fetch('/api/products', options)
+      if(response.ok) {
+        const data = await response.json();
+        return data
       }
     } catch (error) {
       console.error(error)

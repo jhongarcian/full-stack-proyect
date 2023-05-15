@@ -1,7 +1,7 @@
 // Utils functions 
 require('dotenv').config();
 const { setMainView, setNavs, generateId, getVisitorsCount, insertNewUserInDataBase, getPasswordFromDataBase, checkSession } = require('./utils/index.js')
-const { getProducts, getProductsLimitFour, addOrderToDataBase, ordersCount, db, orderInDataBase, getFavs,addToFavs,getFavoriteProducts,getProductsLimit20, } = require('./utils/products.js')
+const { getProducts, getProductsLimitFour, addOrderToDataBase, ordersCount, db, orderInDataBase, getFavs,addToFavs,getFavoriteProducts,getProductsLimit20,addNewProduct } = require('./utils/products.js')
 const { categorySection, titleSection, heroSection } = require('./utils/landingPage.js')
 const { reformatSession } = require('./utils/stripe.js');
 const { success } = require('./utils/success')
@@ -87,7 +87,6 @@ server.post('/create-checkout-session', async (req, res) => {
 
 // Homepage endpoint
 server.get('/', async (req, res) => {
-
 	const products = await getProducts();
 	const smartphones = await getProductsLimitFour('smartphone');
 	const tablets = await getProductsLimitFour('tablet');
@@ -266,7 +265,10 @@ server.get('/product-list', async (req, res) => {
 });
 
 server.get("/logout", (req, res) => {
+	const user_session = req.session.userId;
+	console.log('From logout endpoint',user_session)
     req.session.destroy();
+	res.clearCookie(user_session);
     res.redirect("/");
 });
 
@@ -392,13 +394,36 @@ server.get('/add-products/admin/:user', (req, res) => {
 })
 
 server.post('/create-product', (req, res) => {
-	const { name, category, url, price, sale} = req.body;
+	const { name, category, url, price, sale, description} = req.body;
+
+	const product = {
+		name,
+		category,
+		url,
+		price,
+		sale,
+		description
+	}
 
 	try {
-		res.json({message: "product added"})
+
+		addNewProduct(product)
+		res.json({message: "Product successfully added to database", product_created: product,})
 	} catch (error) {
 		console.error(error)
 		res.status(500).json({error: "Unable to create a product now"})
+	}
+})
+
+// Retrive endpoints
+
+server.get('/api/products', async (req, res) => {
+	const products = await getProducts();
+	try {
+		products ? res.json(products) : res.json({message: 'Create your first product'});
+	} catch (error) {
+		console.error(error)
+		res.status(500).json({error: 'Unable to retrive the data now'})
 	}
 })
 

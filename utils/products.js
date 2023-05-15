@@ -82,5 +82,12 @@ async function orderInDataBase(id) {
         return order
     }
 }
-module.exports = { getProducts, getProductsLimitFour,addOrderToDataBase, ordersCount, db, orderInDataBase, getFavs, addToFavs, getFavoriteProducts, getProductsLimit20, }
 
+async function addNewProduct(data) {
+    const {name, category, url, price, sale, description } = data
+    const priceincents = price * 100;
+    console.log(data)
+    await db.any(`INSERT INTO stock (name, priceincents, category, image_url_one, image_url_two, description) VALUES ('${name}',${priceincents},'${category}','${url}','${url}','${description}');`)
+}
+
+module.exports = { getProducts, getProductsLimitFour,addOrderToDataBase, ordersCount, db, orderInDataBase, getFavs, addToFavs, getFavoriteProducts, getProductsLimit20,addNewProduct }
