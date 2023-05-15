@@ -4,7 +4,7 @@ SELECT 'CREATE DATABASE products' WHERE NOT EXISTS (SELECT FROM pg_database WHER
 
 
 CREATE TABLE stock (
-  id INT NOT NULL,
+  id SERIAL,
   name VARCHAR(255) NOT NULL,
   priceincents INT NOT NULL,
   category VARCHAR(255) NOT NULL,

@@ -30,22 +30,22 @@
     "name": "Login"
   },
   {
-    "href": "/dashboard/user",
+    "href": "/dashboard/admin",
     "isPrivate": true,
     "name": "Dashboard"
   },
   {
-    "href": "/orders/id",
+    "href": "/orders/admin",
     "isPrivate": true,
     "name": "Orders"
   },
   {
-    "href": "/statistics/id",
+    "href": "/statistics/admin",
     "isPrivate": true,
     "name": "Statistics"
   },
   {
-    "href": "/products/id",
+    "href": "/add-products/admin",
     "isPrivate": true,
     "name": "Products"
   },

@@ -9,20 +9,32 @@ function setMainView(view){
     }
 };
 
-function setNavs(currentHref, navs, isAuthenticated) {
+function setNavs(currentHref, navs, isAuthenticated, user, account) {
     const account_type = {
         admin: 'admin',
-        customer: 'customer'
+        customer: 'customer',
+        guest: user
     }
+    console.log( typeof user)
+    const hasUsername = currentHref.includes(user);
+    console.log('Contains : ', hasUsername)
     const _navs = navs.map(nav => {
         nav.className = "";
         if(nav.href === currentHref){
             // nav.className = "active"
             nav.className = "active:bg-blue-600"
         }
-        // get the information from the req object
-        if(nav.href === '/dashboard/user'){
-            nav.href += `/jhongarcian`
+        if(account === account_type.guest || hasUsername) {
+            nav.href
+            console.log('href',nav.href)
+        }
+        // modify the route for the url 
+        if(account === account_type.admin){
+            // i need to avoid adding / user pathname
+            nav.href !== '/logout' ? nav.href += `/${user}` : nav.href
+        }
+        if(account === account_type.customer){
+            nav.href !== '/logout' ? nav.href += `/${user}` : nav.href
         }
         return nav
     }).filter(nav => {
@@ -55,4 +67,10 @@ async function getPasswordFromDataBase(username) {
     return user[0]
 }
 
-module.exports = { setMainView, setNavs, generateId, getVisitorsCount, insertNewUserInDataBase, getPasswordFromDataBase };
+function checkSession(req, res) {
+    if(!req.session.userId) {
+        return res.redirect('/');
+    }
+}
+
+module.exports = { setMainView, setNavs, generateId, getVisitorsCount, insertNewUserInDataBase, getPasswordFromDataBase, checkSession };

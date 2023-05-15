@@ -158,3 +158,76 @@ if(window.location.pathname === "/login"){
       return data
     }
   }
+
+
+const isProductsContainer = document.querySelector('#product-container');
+
+if(isProductsContainer) {
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if(e.target.matches('#form-product')){
+      const data = new FormData(e.target);
+      const stringify = stringifyFormData(data);
+      const response = await createProduct(stringify);
+      console.log(response.message);
+      renderContainer();
+    }
+  }
+  
+  renderContainer();
+  document.addEventListener('submit', handleSubmit);
+
+  function renderContainer(){
+    const html = `
+      <article class='flex-1 flex px-6 w-full lg:max-w-2xl'>
+        <form id="form-product" class="flex - flex-col gap-2 w-full">
+          <label required>
+            <span class="after:content-['*'] after:ml-0.5 after:text-red-500 sm:text-sm">Product Name</span>
+            <input type="text" name='name' placeholder="Nike Air Force" class="px-3 py-2 border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"/>
+          </label>
+          <label required>
+            <span class="after:content-['*'] after:ml-0.5 after:text-red-500 sm:text-sm">Category</span>
+            <input type="text" name='category' placeholder="Smartphone" class="px-3 py-2 border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"/>
+          </label>
+          <label required>
+              <span class="after:content-['*'] after:ml-0.5 after:text-red-500 sm:text-sm">Url</span>
+              <input type="url" name='url' placeholder="www.image.com" class="px-3 py-2 border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"/>
+            </label>
+          <div class='flex gap-4 justify-between'>
+            <label required class=" w-1/2">
+              <span class="after:content-['*'] after:ml-0.5 after:text-red-500 sm:text-sm">Price</span>
+              <input type="number" name='price' placeholder="$1500" class="px-3 py-2 border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"/>
+            </label>
+            <label class=" w-1/2">
+              <span class="after:content-['*'] after:ml-0.5 after:text-red-500 sm:text-sm">Sale</span>
+              <input type="number" name='sale' placeholder="$1500" class="after:content-['$'] after:ml-[-10px] after:text-black  px-3 py-2 border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"/>
+            </label>
+          </div>
+
+          <input type="submit" value="Create Product" class=" mt-4 py-2 text-white rounded-md cursor-pointer bg-indigo-600 hover:bg-indigo-500 active:bg-violet-700 hover:outline-none  sm:text-sm"/>
+        </form> 
+      </article>
+    `
+    isProductsContainer.innerHTML = html;
+  };
+
+  async function createProduct(body) {
+    const options = {
+      method: 'POST',
+      body,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    };
+    try {
+      const response = await fetch('/create-product', options);
+      if(response.ok){
+        const data = await response.json();
+        return data;
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+};

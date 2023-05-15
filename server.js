@@ -1,9 +1,7 @@
 // Utils functions 
 require('dotenv').config();
-
-const { setMainView, setNavs, generateId, getVisitorsCount, insertNewUserInDataBase, getPasswordFromDataBase } = require('./utils/index.js')
+const { setMainView, setNavs, generateId, getVisitorsCount, insertNewUserInDataBase, getPasswordFromDataBase, checkSession } = require('./utils/index.js')
 const { getProducts, getProductsLimitFour, addOrderToDataBase, ordersCount, db, orderInDataBase, getFavs,addToFavs,getFavoriteProducts,getProductsLimit20, } = require('./utils/products.js')
-
 const { categorySection, titleSection, heroSection } = require('./utils/landingPage.js')
 const { reformatSession } = require('./utils/stripe.js');
 const { success } = require('./utils/success')
@@ -33,10 +31,11 @@ server.use(sessions({
     resave: false
 }));
 
-const validCreds = {
-	password: "1234",
-    username: "John"
-};
+const account_types = {
+	admin: 'admin',
+	customer: 'customer',
+	guest: 'guest'
+}
 
 // style.css and main.js middleware
 // server.use(express.static(__dirname + '/client-ui/public'))
@@ -108,7 +107,7 @@ server.get('/', async (req, res) => {
 			laptops: categorySection(laptops, 'left'),
 			keyboards: categorySection(keyboards, "right"),
 			titleSection: titleSection(),
-			navs: setNavs(req.url, navs, !!req.session.userId)
+			navs: setNavs(req.url, navs, !!req.session.userId , user = "guest", account_types.guest)
 		},
 		partials: setMainView('landing')
 	});
@@ -142,7 +141,7 @@ server.get('/success', async (req, res) => {
 		res.render('index', {
 			locals: {
 				successHtml: success(sessionResult),
-				navs: setNavs(req.url, navs, !!req.session.userId)
+				navs: setNavs(req.url, navs, !!req.session.userId , user = 'guest', account_types.guest)
 			},
 			partials: setMainView(`success`)
 		})
@@ -151,23 +150,6 @@ server.get('/success', async (req, res) => {
 		console.error(error)
 	}
 });
-
-server.get('/dashboard/admin/:user', async (req, res) => {
-    const user = req.params.user;
-	console.log(user)
-	console.log('in the dashboard')
-	const { orders, sales } = await ordersCount()
-	res.render('index', {
-		locals: { 
-			view_count: await getVisitorsCount(),
-			number_of_orders: orders,
-			total_sales: sales,
-			user_logged: user,
-			navs: setNavs(req.url, navs, !!req.session.userId)
-		},
-		partials: setMainView('dashboard')
-	})
-})
 
 // Health endpoint created.
 server.get("/heartbeat", (req, res) => {
@@ -178,7 +160,7 @@ server.get("/heartbeat", (req, res) => {
 server.get('/cart', (req, res) => {
 	res.render('index', {
 		locals: {
-			navs: setNavs(req.url, navs, !!req.session.userId)
+			navs: setNavs(req.url, navs, !!req.session.userId , user = "guest", account_types.guest)
 		},
 		partials: setMainView('cart')
 	});
@@ -193,7 +175,7 @@ server.post("/addToFavorites", async (req, res) => {
 server.get('/favorites', (req, res) => {
 	res.render('index', {
 		locals: {
-			navs: setNavs(req.url, navs, !!req.session.userId)
+			navs: setNavs(req.url, navs, !!req.session.userId , user = "guest", account_types.guest)
 		},
 	  partials: setMainView('favorites')
 	});
@@ -203,12 +185,13 @@ server.get('/sucess', (req,res) => {
 	res.render('index', {
 		locals: {
 			successHtml: success(sessionResult),
-			navs: setNavs(req.url, navs, !!req.session.userId)
+			navs: setNavs(req.url, navs, !!req.session.userId , user = "guest", account_types.guest)
 		},
 		partials: setMainView(`success`)
 	});
 });
 
+<<<<<<< HEAD
 server.get("/products", async (req, res) => {
   let {offnum} = req.headers
   if (offnum === undefined || offnum === null) {
@@ -294,15 +277,9 @@ server.post("/login", async (req, res) => {
 		current_data: ''
     };
 
-	const account_types = {
-		admin: 'admin',
-		customer: 'customer'
-	}
-
     const { password, username } = req.body;
 
 	const database_info = await getPasswordFromDataBase(username);
-	console.log(database_info)
 
 	const isValid = await bycrypt.compare(password, database_info.password);
 	
@@ -325,7 +302,7 @@ server.post("/login", async (req, res) => {
 server.get("/login", (req, res) => {
     res.render("index", {
         locals: {
-			navs: setNavs(req.url, navs, !!req.session.userId)
+			navs: setNavs(req.url, navs, !!req.session.userId , user = "guest", account_types.guest)
 		},
         partials: setMainView("/login")
     })
@@ -334,7 +311,7 @@ server.get("/login", (req, res) => {
 server.get('/sign-up', (req, res) => {
 	res.render('index', {
 		locals: {
-			navs: setNavs(req.url, navs, !!req.session.userId)
+			navs: setNavs(req.url, navs, !!req.session.userId , user = "guest", account_types.guest)
 		},
 		partials: setMainView('sing-up')
 	})
@@ -370,10 +347,59 @@ server.post('/sign-up', async (req, res) => {
 server.get('/meet-the-team', (req, res) => {
 	res.render('index', {
 		locals: {
-			navs: setNavs(req.url, navs, !!req.session.userId)
+			navs: setNavs(req.url, navs, !!req.session.userId , user = "guest", account_types.guest)
 		},
 		partials: setMainView('meet-the-team')
 	})
+})
+
+// Endpoints for admin
+
+server.get('/dashboard/admin/:user', async (req, res) => {
+    const user = req.params.user;
+	const userSession = req.session.userId;
+	if(!userSession){
+		return res.redirect('/')
+	}
+	const { orders, sales } = await ordersCount()
+	res.render('index', {
+		locals: { 
+			view_count: await getVisitorsCount(),
+			number_of_orders: orders,
+			total_sales: sales,
+			user_logged: user,
+			navs: setNavs(req.url, navs, !!req.session.userId , user, account_types.admin)
+		},
+		partials: setMainView('dashboard')
+	})
+})
+
+server.get('/add-products/admin/:user', (req, res) => {
+	const { user } = req.params.user;
+	const userSession = req.session.userId;
+	if(!userSession){
+		return res.redirect('/')
+	}
+	console.log('user', user)
+	console.log('user Session', userSession)
+
+	res.render('index', {
+		locals: {
+			navs: setNavs(req.url, navs, !!req.session.userId , userSession, account_types.admin)
+		},	
+		partials: setMainView('add-products')
+	})
+})
+
+server.post('/create-product', (req, res) => {
+	const { name, category, url, price, sale} = req.body;
+
+	try {
+		res.json({message: "product added"})
+	} catch (error) {
+		console.error(error)
+		res.status(500).json({error: "Unable to create a product now"})
+	}
 })
 
 // Server PORT listening.
