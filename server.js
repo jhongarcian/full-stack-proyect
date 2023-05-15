@@ -1,7 +1,7 @@
 // Utils functions 
 require('dotenv').config();
 const { setMainView, setNavs, generateId, getVisitorsCount, insertNewUserInDataBase, getPasswordFromDataBase, checkSession } = require('./utils/index.js')
-const { getProducts, getProductsLimitFour, addOrderToDataBase, ordersCount, db, orderInDataBase, getFavs,addToFavs,getFavoriteProducts,getProductsLimit20,addNewProduct } = require('./utils/products.js')
+const { getProducts, getProductsLimitFour, addOrderToDataBase, ordersCount, db, orderInDataBase, getFavs, addToFavs, getFavoriteProducts, getProductsLimit20, addNewProduct, getOrdersHistory } = require('./utils/products.js')
 const { categorySection, titleSection, heroSection } = require('./utils/landingPage.js')
 const { reformatSession } = require('./utils/stripe.js');
 const { success } = require('./utils/success')
@@ -14,7 +14,7 @@ const bycrypt = require('bcrypt')
 const es6Renderer = require('express-es6-template-engine');
 const cookieParser = require("cookie-parser");
 const sessions = require("express-session");
-const { secureHeapUsed } = require('crypto');
+
 
 const PORT = process.env.PORT || 5050;
 const server = express();
@@ -346,12 +346,12 @@ server.post('/sign-up', async (req, res) => {
 	}
 })
 
-server.get('/meet-the-team', (req, res) => {
+server.get('/ourteam', (req, res) => {
 	res.render('index', {
 		locals: {
 			navs: setNavs(req.url, navs, !!req.session.userId , user = "guest", account_types.guest)
 		},
-		partials: setMainView('meet-the-team')
+		partials: setMainView('ourteam')
 	})
 })
 
@@ -360,9 +360,6 @@ server.get('/meet-the-team', (req, res) => {
 server.get('/dashboard/admin/:user', async (req, res) => {
     const user = req.params.user;
 	const userSession = req.session.userId;
-	if(!userSession){
-		return res.redirect('/')
-	}
 	const { orders, sales } = await ordersCount()
 	res.render('index', {
 		locals: { 
@@ -376,14 +373,12 @@ server.get('/dashboard/admin/:user', async (req, res) => {
 	})
 })
 
-server.get('/add-products/admin/:user', (req, res) => {
+server.get('/products/admin/:user', (req, res) => {
 	const { user } = req.params.user;
 	const userSession = req.session.userId;
 	if(!userSession){
 		return res.redirect('/')
 	}
-	console.log('user', user)
-	console.log('user Session', userSession)
 
 	res.render('index', {
 		locals: {
@@ -424,6 +419,30 @@ server.get('/api/products', async (req, res) => {
 	} catch (error) {
 		console.error(error)
 		res.status(500).json({error: 'Unable to retrive the data now'})
+	}
+})
+
+server.get('/orders/admin/:user', (req, res) => {
+	const userSession = req.session.userId;
+	if(!userSession){
+		return res.redirect('/')
+	}
+
+	res.render('index', {
+		locals: {
+			navs: setNavs(req.url, navs, !!req.session.userId , userSession, account_types.admin)
+		},	
+		partials: setMainView('orders')
+	})
+})
+
+server.get('/api/orders', async (req, res) => {
+	const orders = await getOrdersHistory();
+	try {
+		orders ? res.json(orders) : res.json({message: 'No sales yet!'})
+	} catch (error) {
+		console.error(error)
+		res.status(500).json({error: 'Unable to retrive all the sales now'})
 	}
 })
 

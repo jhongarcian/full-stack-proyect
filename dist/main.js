@@ -161,15 +161,13 @@ if(window.location.pathname === "/login"){
 
 
 
-if(window.location.pathname.includes('/add-products/')) {
+if(window.location.pathname.includes('/products/')) {
   const productContainer = document.querySelector('#product-container');
   
   async function handleClick(e) {
-    e.preventDefault();
     if(e.target.matches('[add-product]')){
       const html = createAddProductContainer();
       productContainer.innerHTML = html;
-      return
     };
     if(e.target.matches('[overview]')){
       const data = await retriveAllProducts()
@@ -345,5 +343,73 @@ if(window.location.pathname.includes('/add-products/')) {
     } catch (error) {
       console.error(error)
     }
+  }
+};
+
+if(window.location.pathname.includes('/orders/admin/')){
+  const ordersContainer = document.querySelector('#orders-container');
+  
+  renderOrders()
+  
+  function retriveOrders(orders) {
+    console.log(orders)
+    const html = `
+    <div class="flex flex-col overflow-x-auto flex-1 w-full ">
+      <div class="w-full">
+        <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-sm font-light text-center">
+              <thead class="border-b font-medium dark:border-neutral-500">
+                <tr>
+                  <th scope="col" class="px-3 py-4">Name</th>
+                  <th scope="col" class="px-3 py-4">Email</th>
+                  <th scope="col" class="px-3 py-4">Sub-Amount</th>
+                  <th scope="col" class="px-3 py-4">Total-Amount</th>
+                  <th scope="col" class="px-3 py-4"># of Items</th>
+                  <th scope="col" class="px-3 py-4">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${orders.map(item => `
+                  <tr id='${item.id}' class="border-b dark:border-neutral-500">
+                    <td class="whitespace-nowrap px-3 py-4">${item.customer_name}</td>
+                    <td class="whitespace-nowrap px-3 py-4">${item.customer_email}</td>
+                    <td class="whitespace-nowrap px-3 py-4">$ ${item.subtotal_amount / 100}</td>
+                    <td class="whitespace-nowrap px-3 py-4">$ ${item.total_amount / 100}</td>
+                    <td class="whitespace-nowrap px-3 py-4">${item.item_count}</td>
+                    <td class="whitespace-nowrap px-3 py-4">${item.purchase_date}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    `
+  return html;
+  }
+
+  async function getOrders() {
+    const options = {
+      method: 'GET'
+    }
+
+    try {
+      const response = await fetch('/api/orders', options);
+      if(response.ok){
+        const data = await response.json();
+        console.log(data)
+        return data
+      }
+    } catch (error) {
+      console.error(error)
+    };
+  };
+
+  async function renderOrders() {
+    const orders = await getOrders();
+    const html = retriveOrders(orders);
+    ordersContainer.innerHTML = html
   }
 };

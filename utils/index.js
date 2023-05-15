@@ -15,7 +15,6 @@ function setNavs(currentHref, navs, isAuthenticated, user, account) {
         customer: 'customer',
         guest: 'guest'
     }
-    console.log(account)
     const _navs = navs.map(nav => {
         nav.className = "";
         if(nav.href === currentHref){
@@ -24,22 +23,15 @@ function setNavs(currentHref, navs, isAuthenticated, user, account) {
         }
         if(account === account_type.guest) {
             console.log("You are logged as a guest")
-            const REGEX_PATTERN = /\/\w+/;
-            const correctUrl = nav.href.match(REGEX_PATTERN);
-            if(correctUrl){
-                nav.href = correctUrl[0]
-            }
+            nav.href
         }
         // modify the route for the url 
         if(account === account_type.admin){
             console.log("You are logged as an admin")
-
-            // i need to avoid adding / user pathname
-            nav.href !== '/logout' && !nav.href.includes(user) ? nav.href += `/${user}` : nav.href
+            nav.href !== '/logout' && nav.href !== '/' && nav.href !== '/login' && nav.href !== '/ourteam' && nav.href !== '/products' && nav.href !== '/cart' && nav.href !== '/favorites' && !nav.href.includes(user) ? nav.href += `/${user}` : nav.href
         }
         if(account === account_type.customer){
             console.log("You are logged as a customer")
-
             nav.href !== '/logout' && !nav.href.includes(user) ? nav.href += `/${user}` : nav.href
         }
         return nav

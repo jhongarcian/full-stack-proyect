@@ -90,4 +90,9 @@ async function addNewProduct(data) {
     await db.any(`INSERT INTO stock (name, priceincents, category, image_url_one, image_url_two, description) VALUES ('${name}',${priceincents},'${category}','${url}','${url}','${description}');`)
 }
 
-module.exports = { getProducts, getProductsLimitFour,addOrderToDataBase, ordersCount, db, orderInDataBase, getFavs, addToFavs, getFavoriteProducts, getProductsLimit20,addNewProduct }
+async function getOrdersHistory() {
+    const orders = await db.any(`SELECT * FROM orders;`);
+    return orders;
+}
+
+module.exports = { getProducts, getProductsLimitFour,addOrderToDataBase, ordersCount, db, orderInDataBase, getFavs, addToFavs, getFavoriteProducts, getProductsLimit20,addNewProduct,getOrdersHistory }

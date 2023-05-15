@@ -20,7 +20,7 @@
     "name": "Products"
   },
   {
-    "href": "/meet-the-team",
+    "href": "/ourteam",
     "isPrivate": false,
     "name": "Our Team"
   },
@@ -45,7 +45,7 @@
     "name": "Statistics"
   },
   {
-    "href": "/add-products/admin",
+    "href": "/products/admin",
     "isPrivate": true,
     "name": "Products"
   },
