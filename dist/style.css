@@ -218,6 +218,7 @@ body.michaeljones {
   border-radius: 40px;
 }
 
+<<<<<<< HEAD
 .fav {
   display: flex;
 }
@@ -374,3 +375,7 @@ body.michaeljones {
     padding: 3%;
   }
 }
+
+/* .navs a.active {
+  color: var(--clr-primary-8);
+} */
