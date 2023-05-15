@@ -37,31 +37,34 @@ if(button_checkout) {
 };
 
 // Function to fetch the next 20 products
-const pageTurn = () => {
-
-    fetch(`http://localhost:8080/products/page/20`, {
-        method: 'GET',
-        headers: {
-            "Content-Type": "application/json",
-        "Access-Control-Allow-Headers": "*",
-            offnum: 20 // Set the value of offnum in the request headers
-        }
-    }) .then(response => response.json()) .then(data => {
-
-        // Refresh the page with the new products
-        window.location.reload();
-    })
+if(window.location.pathname === '/products'){
+  const pageTurn = () => {
+  
+      fetch(`http://localhost:8080/products/page/20`, {
+          method: 'GET',
+          headers: {
+              "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "*",
+              offnum: 20 // Set the value of offnum in the request headers
+          }
+      }) .then(response => response.json()) .then(data => {
+  
+          // Refresh the page with the new products
+          window.location.reload();
+      })
+  }
+  
+  
+  const nextPage = document.getElementById("nextPage")
+  nextPage.addEventListener('click', () => {
+      pageTurn()
+  })
 }
-
-
-const nextPage = document.getElementById("nextPage")
-nextPage.addEventListener('click', () => {
-    pageTurn()
-})
 
 if(window.location.pathname === "/login"){
     const form = document.getElementById('form');
     const credsContainer = form.querySelector("#credentials-container")
+    console.log(credsContainer)
   
     const handleSignupFormSubmit = async (e) => {
       e.preventDefault();
@@ -75,7 +78,7 @@ if(window.location.pathname === "/login"){
     };
   
     renderForm()
-    form.addEventListener('submit', handleSignupFormSubmit);
+    document.addEventListener('submit', handleSignupFormSubmit);
   
     function renderForm() {
       const html = `

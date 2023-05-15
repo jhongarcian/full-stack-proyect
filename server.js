@@ -190,7 +190,6 @@ server.get('/sucess', (req,res) => {
 	});
 });
 
-<<<<<<< HEAD
 server.get("/products", async (req, res) => {
   let {offnum} = req.headers
   if (offnum === undefined || offnum === null) {
