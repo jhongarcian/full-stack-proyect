@@ -1,6 +1,7 @@
 // Utils functions 
 require('dotenv').config();
-const { setMainView, setNavs, generateId, getVisitorsCount } = require('./utils/index.js')
+
+const { setMainView, setNavs, generateId, getVisitorsCount, insertNewUserInDataBase, getPasswordFromDataBase } = require('./utils/index.js')
 const { getProducts, getProductsLimitFour, addOrderToDataBase, ordersCount, db, orderInDataBase, getFavs,addToFavs,getFavoriteProducts,getProductsLimit20, } = require('./utils/products.js')
 
 const { categorySection, titleSection, heroSection } = require('./utils/landingPage.js')
@@ -11,6 +12,7 @@ const querystring = require('querystring')
 const url = require('url')
 
 const express = require('express');
+const bycrypt = require('bcrypt')
 const es6Renderer = require('express-es6-template-engine');
 const cookieParser = require("cookie-parser");
 const sessions = require("express-session");
@@ -282,14 +284,21 @@ server.get("/logout", (req, res) => {
     res.redirect("/");
 });
 
-server.post("/login", (req, res) => {
+server.post("/login", async (req, res) => {
     const afterLogin = {
         isAuthenticated: false,
         redirectTo: "/login"
     };
 
     const { password, username } = req.body;
-    if(password === validCreds.password && username === validCreds.username){
+
+	const result = await getPasswordFromDataBase(username);
+
+	const password_from_database = result[0].password
+
+	const isValid = await bycrypt.compare(password, password_from_database)
+
+    if(isValid){
         req.session.userId = username;
         afterLogin.isAuthenticated = true;
         afterLogin.redirectTo = "/dashboard/id";
@@ -315,9 +324,31 @@ server.get('/sign-up', (req, res) => {
 	})
 })
 
-server.post('/sing-up', (req, res) => {
-	const { password, username } = req.body
-	res.json({password, username})
+server.post('/sign-up', async (req, res) => {
+	const { password, username } = req.body;
+
+	const salt = await bycrypt.genSalt(10);
+
+	const hashedPassword = await bycrypt.hash(password, salt);
+	console.log('Password Hashed ' + hashedPassword);
+	
+	try {
+		const newUser = {
+			username: username,
+			password: hashedPassword
+		};
+
+		await insertNewUserInDataBase(newUser);
+
+		res.json({ 
+			message: 'User created successfully!',
+			redirectTo: '/dashboard/id'
+		});
+
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({error: "Unable to create user"});
+	}
 })
 
 // Server PORT listening.

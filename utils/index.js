@@ -37,4 +37,15 @@ async function getVisitorsCount() {
     return numberCount
 }
 
-module.exports = { setMainView, setNavs, generateId, getVisitorsCount };
+async function insertNewUserInDataBase(user) {
+    const {username, password} = user;
+    console.log(username, password)
+    await db.any(`INSERT INTO users(username, password) VALUES('${username}', '${password}');`)
+}
+
+async function getPasswordFromDataBase(username) {
+    const user = await db.any(`SELECT password FROM users WHERE username = '${username}';`)
+    return user
+}
+
+module.exports = { setMainView, setNavs, generateId, getVisitorsCount, insertNewUserInDataBase, getPasswordFromDataBase };

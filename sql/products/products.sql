@@ -199,6 +199,21 @@ CREATE TABLE visitors (
 );
 
 
+-- Create users table 
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(250) NOT NULL UNIQUE,
+  password VARCHAR(250) NOT NULL,
+  timestamp TIMESTAMP DEFAULT NOW()
+);
+
+INSERT INTO users(username, password)
+VALUES('jhon', '1234')
+
+SELECT * FROM users WHERE username = "username";
+
+-- psql -U postgres -f ./sql/setup.sql
+
 CREATE TABLE users (
   id INT PRIMARY KEY,
   email TEXT,

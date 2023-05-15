@@ -110,7 +110,8 @@ if(window.location.pathname === "/login"){
       e.preventDefault()
       const data = new FormData(e.target);
       const stringified = stringifyFormData(data);
-      const response = await createUser(stringified)
+      const response = await createUser(stringified);
+      location.href = response.redirectTo
     }
 
     renderForm()
@@ -142,8 +143,8 @@ if(window.location.pathname === "/login"){
         },
         body
       }
-      const response = await fetch('/sing-up', options);
+      const response = await fetch('/sign-up', options);
       const data = await response.json()
-      console.log(data)
+      return data
     }
   }
