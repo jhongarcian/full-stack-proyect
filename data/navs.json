@@ -1,33 +1,53 @@
 [
   {
     "href": "/",
+    "isPrivate": false,
     "name": "Home"
   },
   {
     "href": "/favorites",
+    "isPrivate": false,
     "name": "Favorites"
   },
   {
     "href": "/cart",
+    "isPrivate": false,
     "name": "Cart"
   },
   {
     "href": "/products",
+    "isPrivate": false,
     "name": "Products"
   },
   {
-    "href": "/meet-the-team",
+    "href": "/ourteam",
+    "isPrivate": false,
     "name": "Our Team"
-  },
-  {
-    "href": "/profile",
-    "isPrivate": true,
-    "name": "Profile"
   },
   {
     "href": "/login",
     "isPrivate": false,
     "name": "Login"
+  },
+  {
+    "href": "/dashboard/admin",
+    "isPrivate": true,
+    "name": "Dashboard"
+  },
+  {
+    "href": "/orders/admin",
+    "isPrivate": true,
+    "name": "Orders"
+  },
+  {
+    "href": "/statistics/admin",
+    "isPrivate": true,
+    "name": "Statistics"
+  },
+  {
+    "href": "/products/admin",
+    "isPrivate": true,
+    "name": "Products"
   },
   {
     "href": "/logout",

@@ -29,7 +29,7 @@ function success(dataFromCheckout) {
             <span class="text-indigo-500 text-sm">123456789908</span>
             </div>
             <div class="flex flex-col divide-y border-t-2 border-b-2">
-            ${dataFromCheckout.items.map(element => `
+            ${dataFromCheckout.items.map(element =>`
             <div class="py-4 flex justify-between">
                 <div class="flex gap-4">
                 <img

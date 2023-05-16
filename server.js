@@ -1,19 +1,20 @@
 // Utils functions 
 require('dotenv').config();
-const { setMainView, setNavs, generateId, getVisitorsCount } = require('./utils/index.js')
-const { getProducts, getProductsLimitFour, addOrderToDataBase, ordersCount, db, getFavs,addToFavs,getFavoriteProducts,getProductsLimit20,} = require('./utils/products.js')
+const { setMainView, setNavs, generateId, getVisitorsCount, insertNewUserInDataBase, getPasswordFromDataBase, checkSession } = require('./utils/index.js')
+const { getProducts, getProductsLimitFour, addOrderToDataBase, ordersCount, db, orderInDataBase, getFavs, addToFavs, getFavoriteProducts, getProductsLimit20, addNewProduct, getOrdersHistory } = require('./utils/products.js')
 const { categorySection, titleSection, heroSection } = require('./utils/landingPage.js')
 const { reformatSession } = require('./utils/stripe.js');
 const { success } = require('./utils/success')
-const pgp = require('pg-promise')();
 const navs = require('./data/navs.json')
 const querystring = require('querystring')
 const url = require('url')
 
 const express = require('express');
+const bycrypt = require('bcrypt')
 const es6Renderer = require('express-es6-template-engine');
 const cookieParser = require("cookie-parser");
 const sessions = require("express-session");
+
 
 const PORT = process.env.PORT || 5050;
 const server = express();
@@ -30,10 +31,11 @@ server.use(sessions({
     resave: false
 }));
 
-const validCreds = {
-	password: "1234",
-    username: "John"
-};
+const account_types = {
+	admin: 'admin',
+	customer: 'customer',
+	guest: 'guest'
+}
 
 // style.css and main.js middleware
 // server.use(express.static(__dirname + '/client-ui/public'))
@@ -72,7 +74,6 @@ server.post('/create-checkout-session', async (req, res) => {
 					quantity: item.quantity
 				}
 			}),
-
 			// redirect urls 
 			success_url:`${process.env.SERVER_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
 			cancel_url: `${process.env.SERVER_URL}`
@@ -85,8 +86,7 @@ server.post('/create-checkout-session', async (req, res) => {
 });
 
 // Homepage endpoint
-server.get('/', countViews,async (req, res) => {
-
+server.get('/', async (req, res) => {
 	const products = await getProducts();
 	const smartphones = await getProductsLimitFour('smartphone');
 	const tablets = await getProductsLimitFour('tablet');
@@ -106,7 +106,7 @@ server.get('/', countViews,async (req, res) => {
 			laptops: categorySection(laptops, 'left'),
 			keyboards: categorySection(keyboards, "right"),
 			titleSection: titleSection(),
-			navs: setNavs(req.url, navs, !!req.session.userId)
+			navs: setNavs(req.url, navs, !!req.session.userId , user = "guest", account_types.guest)
 		},
 		partials: setMainView('landing')
 	});
@@ -121,8 +121,8 @@ server.get('/success', async (req, res) => {
 	const queryString = parsedUrl.query;
 	const queryParams = querystring.parse(queryString)
 	const sessionId = queryParams.session_id;
-
-
+	const order = await orderInDataBase(sessionId)
+	
 	try {
 		const session = await stripe.checkout.sessions.retrieve(sessionId);
 		const items = await stripe.checkout.sessions.listLineItems(
@@ -130,13 +130,17 @@ server.get('/success', async (req, res) => {
 			{limit: 10 }
 		)
 		const sessionResult = reformatSession(session, items);
-		const randomIdForDataBase = generateId()
-		addOrderToDataBase(sessionResult, randomIdForDataBase)
+		if(order){
+			res.redirect('/')
+			return
+		}else {
+			addOrderToDataBase(sessionResult, sessionId)
+		}
 
 		res.render('index', {
 			locals: {
 				successHtml: success(sessionResult),
-				navs: setNavs(req.url, navs, !!req.session.userId)
+				navs: setNavs(req.url, navs, !!req.session.userId , user = 'guest', account_types.guest)
 			},
 			partials: setMainView(`success`)
 		})
@@ -145,26 +149,6 @@ server.get('/success', async (req, res) => {
 		console.error(error)
 	}
 });
-
-let viewCount = 0;
-
-function countViews(req, res, next) {
-  viewCount++;
-  next();
-}
-
-server.get('/dashboard/id', async (req, res) => {
-	const { orders, sales } = await ordersCount()
-	res.render('index', {
-		locals: { 
-			view_count: await getVisitorsCount(),
-			number_of_orders: orders,
-			total_sales: sales,
-			navs: setNavs(req.url, navs, !!req.session.userId)
-		},
-		partials: setMainView('dashboard')
-	})
-})
 
 // Health endpoint created.
 server.get("/heartbeat", (req, res) => {
@@ -175,7 +159,7 @@ server.get("/heartbeat", (req, res) => {
 server.get('/cart', (req, res) => {
 	res.render('index', {
 		locals: {
-			navs: setNavs(req.url, navs, !!req.session.userId)
+			navs: setNavs(req.url, navs, !!req.session.userId , user = "guest", account_types.guest)
 		},
 		partials: setMainView('cart')
 	});
@@ -190,7 +174,7 @@ server.post("/addToFavorites", async (req, res) => {
 server.get('/favorites', (req, res) => {
 	res.render('index', {
 		locals: {
-			navs: setNavs(req.url, navs, !!req.session.userId)
+			navs: setNavs(req.url, navs, !!req.session.userId , user = "guest", account_types.guest)
 		},
 	  partials: setMainView('favorites')
 	});
@@ -200,7 +184,7 @@ server.get('/sucess', (req,res) => {
 	res.render('index', {
 		locals: {
 			successHtml: success(sessionResult),
-			navs: setNavs(req.url, navs, !!req.session.userId)
+			navs: setNavs(req.url, navs, !!req.session.userId , user = "guest", account_types.guest)
 		},
 		partials: setMainView(`success`)
 	});
@@ -280,33 +264,186 @@ server.get('/product-list', async (req, res) => {
 });
 
 server.get("/logout", (req, res) => {
+	const user_session = req.session.userId;
+	console.log('From logout endpoint',user_session)
     req.session.destroy();
+	res.clearCookie(user_session);
     res.redirect("/");
 });
 
-server.post("/login", (req, res) => {
+server.post("/login", async (req, res) => {
     const afterLogin = {
         isAuthenticated: false,
-        redirectTo: "/login"
+        redirectTo: "/login",
+		current_data: ''
     };
 
     const { password, username } = req.body;
-    if(password === validCreds.password && username === validCreds.username){
+
+	const database_info = await getPasswordFromDataBase(username);
+
+	const isValid = await bycrypt.compare(password, database_info.password);
+	
+	const account_type = database_info.account_type;
+
+    if(isValid && account_type === account_types.admin){
         req.session.userId = username;
         afterLogin.isAuthenticated = true;
-        afterLogin.redirectTo = "/profile";
+        afterLogin.redirectTo = `/dashboard/admin/${username}`;
     }
+	if(isValid && account_type === account_types.customer){
+		req.session.userId = username;
+		afterLogin.isAuthenticated = false
+		afterLogin.redirectTo = `/account/user/${username}`
+		afterLogin.current_data = "is an user"
+	}
     res.json(afterLogin)
 });
 
 server.get("/login", (req, res) => {
     res.render("index", {
         locals: {
-			navs: setNavs(req.url, navs, !!req.session.userId)
+			navs: setNavs(req.url, navs, !!req.session.userId , user = "guest", account_types.guest)
 		},
-        partials: setMainView("login")
+        partials: setMainView("/login")
     })
 });
+
+server.get('/sign-up', (req, res) => {
+	res.render('index', {
+		locals: {
+			navs: setNavs(req.url, navs, !!req.session.userId , user = "guest", account_types.guest)
+		},
+		partials: setMainView('sing-up')
+	})
+})
+
+server.post('/sign-up', async (req, res) => {
+	const { password, username, account } = req.body;
+
+	const salt = await bycrypt.genSalt(10);
+
+	const hashedPassword = await bycrypt.hash(password, salt);
+	
+	try {
+		const newUser = {
+			username,
+			password: hashedPassword,
+			account
+		};
+
+		await insertNewUserInDataBase(newUser);
+
+		res.json({ 
+			message: 'User created successfully!',
+			redirectTo: '/login'
+		});
+
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({error: "Unable to create user"});
+	}
+})
+
+server.get('/ourteam', (req, res) => {
+	res.render('index', {
+		locals: {
+			navs: setNavs(req.url, navs, !!req.session.userId , user = "guest", account_types.guest)
+		},
+		partials: setMainView('ourteam')
+	})
+})
+
+// Endpoints for admin
+
+server.get('/dashboard/admin/:user', async (req, res) => {
+    const user = req.params.user;
+	const userSession = req.session.userId;
+	const { orders, sales } = await ordersCount()
+	res.render('index', {
+		locals: { 
+			view_count: await getVisitorsCount(),
+			number_of_orders: orders,
+			total_sales: sales,
+			user_logged: user,
+			navs: setNavs(req.url, navs, !!req.session.userId , user, account_types.admin)
+		},
+		partials: setMainView('dashboard')
+	})
+})
+
+server.get('/products/admin/:user', (req, res) => {
+	const { user } = req.params.user;
+	const userSession = req.session.userId;
+	if(!userSession){
+		return res.redirect('/')
+	}
+
+	res.render('index', {
+		locals: {
+			navs: setNavs(req.url, navs, !!req.session.userId , userSession, account_types.admin)
+		},	
+		partials: setMainView('add-products')
+	})
+})
+
+server.post('/create-product', (req, res) => {
+	const { name, category, url, price, sale, description} = req.body;
+
+	const product = {
+		name,
+		category,
+		url,
+		price,
+		sale,
+		description
+	}
+
+	try {
+
+		addNewProduct(product)
+		res.json({message: "Product successfully added to database", product_created: product,})
+	} catch (error) {
+		console.error(error)
+		res.status(500).json({error: "Unable to create a product now"})
+	}
+})
+
+// Retrive endpoints
+
+server.get('/api/products', async (req, res) => {
+	const products = await getProducts();
+	try {
+		products ? res.json(products) : res.json({message: 'Create your first product'});
+	} catch (error) {
+		console.error(error)
+		res.status(500).json({error: 'Unable to retrive the data now'})
+	}
+})
+
+server.get('/orders/admin/:user', (req, res) => {
+	const userSession = req.session.userId;
+	if(!userSession){
+		return res.redirect('/')
+	}
+
+	res.render('index', {
+		locals: {
+			navs: setNavs(req.url, navs, !!req.session.userId , userSession, account_types.admin)
+		},	
+		partials: setMainView('orders')
+	})
+})
+
+server.get('/api/orders', async (req, res) => {
+	const orders = await getOrdersHistory();
+	try {
+		orders ? res.json(orders) : res.json({message: 'No sales yet!'})
+	} catch (error) {
+		console.error(error)
+		res.status(500).json({error: 'Unable to retrive all the sales now'})
+	}
+})
 
 // Server PORT listening.
 server.listen(PORT, () => {

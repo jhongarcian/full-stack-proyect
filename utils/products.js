@@ -74,4 +74,25 @@ async function addToFavs(user_id, product_id) {
     return newFav
 }
 
-module.exports = { getProducts, getProductsLimitFour,addOrderToDataBase, ordersCount, getFavs, addToFavs, getFavoriteProducts, getProductsLimit20, db }
+async function orderInDataBase(id) {
+    const order = await db.any(`SELECT id FROM orders WHERE id = '${id}'`)
+    if(order.length === 0){
+        return false
+    }else {
+        return order
+    }
+}
+
+async function addNewProduct(data) {
+    const {name, category, url, price, sale, description } = data
+    const priceincents = price * 100;
+    console.log(data)
+    await db.any(`INSERT INTO stock (name, priceincents, category, image_url_one, image_url_two, description) VALUES ('${name}',${priceincents},'${category}','${url}','${url}','${description}');`)
+}
+
+async function getOrdersHistory() {
+    const orders = await db.any(`SELECT * FROM orders;`);
+    return orders;
+}
+
+module.exports = { getProducts, getProductsLimitFour,addOrderToDataBase, ordersCount, db, orderInDataBase, getFavs, addToFavs, getFavoriteProducts, getProductsLimit20,addNewProduct,getOrdersHistory }
